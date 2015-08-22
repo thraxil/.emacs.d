@@ -12,8 +12,6 @@
 
 (require 'auto-complete-config)
 (require 'package)
-(require 'expand-region)
-(require 'multiple-cursors)
 (require 'erlang)
 (require 'feature-mode)
 (require 'go-mode)
@@ -28,12 +26,26 @@
 ;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
+(unless (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+  (package-refresh-contents))
+
+(defun require-package (package &optional min-version no-refresh)
+  "Install given PACKAGE, optionally requiring MIN-VERSION.
+If NO-REFRESH is non-nil, the available package lists will not be
+re-downloaded in order to locate PACKAGE."
+  (if (package-installed-p package min-version)
+      t
+    (if (or (assoc package package-archive-contents) no-refresh)
+        (package-install package)
+      (progn
+        (package-refresh-contents)
+        (require-package package min-version t)))))
+
+(require-package 'expand-region)
+(require-package 'magit)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -95,6 +107,26 @@ Including indent-buffer, which should not be called automatically on save."
     (linum-mode -1)))
 
 
+;; some sane defaults
+(set-default 'indicate-empty-lines t)
+(setq echo-keystrokes 0.1)
+(auto-compression-mode t)
+
+;; UTF-8 please
+(setq locale-coding-system 'utf-8) ; pretty
+(set-terminal-coding-system 'utf-8) ; pretty
+(set-keyboard-coding-system 'utf-8) ; pretty
+(set-selection-coding-system 'utf-8) ; please
+(prefer-coding-system 'utf-8) ; with sugar on top
+
+(delete-selection-mode 1)
+(winner-mode 1)
+
+
+;; Save a list of recent files visited. (open recent file with C-x f)
+(recentf-mode 1)
+(setq recentf-max-saved-items 100) ;; just 20 is too recent
+
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
 (setq default-major-mode 'text-mode)
@@ -105,6 +137,7 @@ Including indent-buffer, which should not be called automatically on save."
 (display-time)
 (global-hl-line-mode nil)
 (setq blink-matching-paren-distance nil)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
