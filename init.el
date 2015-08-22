@@ -12,6 +12,7 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (require 'appearance)
+(require 'key-bindings)
 (require 'auto-complete-config)
 (require 'package)
 (require 'erlang)
@@ -56,9 +57,6 @@ re-downloaded in order to locate PACKAGE."
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-
 ;; full screen magit-status
 
 (defadvice magit-status (around magit-fullscreen activate)
@@ -89,20 +87,6 @@ Including indent-buffer, which should not be called automatically on save."
   (interactive)
   (cleanup-buffer-safe)
   (indent-region (point-min) (point-max)))
-
-(global-set-key (kbd "C-c n") 'cleanup-buffer)
-
-(global-set-key (kbd "C-'") 'toggle-quotes)
-
-(global-set-key (kbd "M-j")
-                (lambda ()
-                  (interactive)
-                  (join-line -1)))
-
-(global-set-key [(control s)] 'isearch-forward-regexp)
-(global-set-key [(control r)] 'isearch-backward-regexp)
-
-(global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input"
@@ -153,18 +137,6 @@ Including indent-buffer, which should not be called automatically on save."
     (helm-projectile helm projectile magit expand-region))))
 
 (setq skeleton-pair t)
-(global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-
-
-(global-set-key (kbd "C-=") 'er/expand-region)
-
-
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; don't leave '~' files all over the place. instead,
 ;; put all of them into a single central directory
@@ -249,17 +221,12 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key [(control d)] 'kill-syntax-forward)
-
 (defun kill-syntax-forward ()
   "Kill characters with syntax at point."
   (interactive)
   (kill-region (point)
                (progn (skip-syntax-forward (string (char-syntax (char-after))))
                       (point))))
-
-(global-set-key [(control ? )] 'hippie-expand)
-(global-set-key [(control return)] 'set-mark-command)
 
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
