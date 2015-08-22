@@ -11,12 +11,22 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (require 'auto-complete-config)
+(require 'package)
+(require 'expand-region)
+(require 'multiple-cursors)
+(require 'erlang)
+(require 'feature-mode)
+(require 'go-mode)
+(require 'auto-complete-config)
+(require 'hippie-exp)
+;; ;(require 'clojure-mode)
+
 (add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
 (ac-config-default)
 
 ;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'package)
+
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
 (when (< emacs-major-version 24)
@@ -121,10 +131,10 @@ Including indent-buffer, which should not be called automatically on save."
 (global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
 (global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
 
-(require 'expand-region)
+
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-(require 'multiple-cursors)
+
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -155,19 +165,16 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'erlang)
 (add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
 
-(require 'feature-mode)
+
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
-(require 'go-mode)
 (add-to-list 'auto-mode-alist '("\.go$" . go-mode))
 (setq default-tab-width 2)
 (setenv "GOPATH" "/home/anders/code/go/")
 (setenv "PATH" "/home/anders/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/anders/code/go/go/bin")
 
-(require 'auto-complete-config)
 (defun my-go-mode-hook ()
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -196,7 +203,6 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; if i did more Clojure, I'd enable these...
 
-;; ;(require 'clojure-mode)
 ;; ;(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 ;; ;(setq clojure-src-root "/home/anders/bin")
 ;; ;(setq swank-clojure-extra-classpaths '())
@@ -217,7 +223,6 @@ Including indent-buffer, which should not be called automatically on save."
 (global-set-key [(control ? )] 'hippie-expand)
 (global-set-key [(control return)] 'set-mark-command)
 
-(require 'hippie-exp)
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
         try-expand-dabbrev-all-buffers
