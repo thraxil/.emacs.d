@@ -48,6 +48,9 @@ re-downloaded in order to locate PACKAGE."
 
 (require-package 'expand-region)
 (require-package 'magit)
+(require-package 'projectile)
+(require-package 'helm)
+(require-package 'helm-projectile)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -148,19 +151,9 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(backward-delete-char-untabify-method (quote hungry))
- '(column-number-mode t)
- '(completion-ignored-extensions
+ '(package-selected-packages
    (quote
-    ("~" ".aux" ".a" ".bbl" ".blg" ".dvi" ".elc" ".hc" ".hi" ".log" ".mlc" ".o" ".toc" ".pyc")))
- '(font-lock-global-modes t)
- '(font-lock-maximum-decoration t)
- '(global-font-lock-mode t nil (font-lock))
- '(indent-tabs-mode nil)
- '(line-number-mode t)
- '(user-mail-address "anders@columbia.edu")
- '(version-control t)
- '(visible-bell t))
+    (helm-projectile helm projectile magit expand-region))))
 
 (setq skeleton-pair t)
 (global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
@@ -286,3 +279,9 @@ Including indent-buffer, which should not be called automatically on save."
 
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
