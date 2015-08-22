@@ -19,6 +19,7 @@
 (require 'go-mode)
 (require 'auto-complete-config)
 (require 'hippie-exp)
+(require 'markdown-mode)
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
