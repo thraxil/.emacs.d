@@ -18,6 +18,7 @@
 (require 'auto-complete-config)
 (require 'hippie-exp)
 (require 'markdown-mode)
+(require 'toggle-quotes)
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
@@ -84,6 +85,8 @@ Including indent-buffer, which should not be called automatically on save."
   (indent-region (point-min) (point-max)))
 
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
+
+(global-set-key (kbd "C-'") 'toggle-quotes)
 
 (global-set-key (kbd "M-j")
                 (lambda ()
