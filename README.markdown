@@ -25,8 +25,8 @@ installs all the necessary packages automatically.
 * setups for Python, Go, Erlang, Javascript, Django, Markdown, and BDD
 feature files
 * magit config
-* anal-retentive whitespace cleaning functionality
-* cursor line is always vertically centered and highlighted
-* hippie-expand configured how I like it
+* anal-retentive whitespace cleaning functionality (`C-c n`)
+* cursor line is always vertically centered and ghlighted
+* hippie-expand configured how I like it (on `M-/`)
 * mutt specific config
 * projectile + helm
