@@ -6,10 +6,12 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
+
 ;;;;;;;;;;;;;;;;;;; load libraries ;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(require 'appearance)
 (require 'auto-complete-config)
 (require 'package)
 (require 'erlang)
@@ -99,8 +101,6 @@ Including indent-buffer, which should not be called automatically on save."
 
 (global-set-key [(control s)] 'isearch-forward-regexp)
 (global-set-key [(control r)] 'isearch-backward-regexp)
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
 
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
@@ -115,8 +115,6 @@ Including indent-buffer, which should not be called automatically on save."
 
 
 ;; some sane defaults
-(set-default 'indicate-empty-lines t)
-(setq echo-keystrokes 0.1)
 (auto-compression-mode t)
 
 ;; UTF-8 please
@@ -142,7 +140,6 @@ Including indent-buffer, which should not be called automatically on save."
 (setq scroll-step 1)
 (setq display-time-24hr-format t)
 (display-time)
-(global-hl-line-mode nil)
 (setq blink-matching-paren-distance nil)
 
 
