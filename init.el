@@ -6,15 +6,9 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
-
 ;;;;;;;;;;;;;;;;;;; load libraries ;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq load-path (cons "/home/anders/emacs/" load-path))
-
-(load "/home/anders/emacs/post.el")
-(load "/home/anders/emacs/django-html-mode.el")
-(load-file "/home/anders/emacs/oracle.el")
-(load-file "/home/anders/emacs/markdown-mode/markdown-mode.el")
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
@@ -37,19 +31,18 @@
 
 ;; full screen magit-status
 
-;(defadvice magit-status (around magit-fullscreen activate)
-;  (window-configuration-to-register :magit-fullscreen)
-;  ad-do-it
-;  (delete-other-windows))
-;
-;(defun magit-quit-session ()
-;  "Restores the previous window configuration and kills the magit buffer"
-;  (interactive)
-;  (kill-buffer)
-;  (jump-to-register :magit-fullscreen))
-;
-;(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+(defadvice magit-status (around magit-fullscreen activate)
+  (window-configuration-to-register :magit-fullscreen)
+  ad-do-it
+  (delete-other-windows))
 
+(defun magit-quit-session ()
+  "Restores the previous window configuration and kills the magit buffer"
+  (interactive)
+  (kill-buffer)
+  (jump-to-register :magit-fullscreen))
+
+;; (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
 ;; (global-whitespace-mode 1)
 
@@ -151,7 +144,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq kept-new-versions 1)
 (setq delete-old-versions t)
 
-                                        ; auto fill for text-mode
+;; auto fill for text-mode
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq fill-column 72)
 
@@ -174,7 +167,6 @@ Including indent-buffer, which should not be called automatically on save."
 (setenv "GOPATH" "/home/anders/code/go/")
 (setenv "PATH" "/home/anders/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/anders/code/go/go/bin")
 
-                                        ;(require 'go-autocomplete)
 (require 'auto-complete-config)
 (defun my-go-mode-hook ()
   (setq gofmt-command "goimports")
@@ -202,7 +194,7 @@ Including indent-buffer, which should not be called automatically on save."
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-;; if i did more Perl or Clojure, I'd enable these...
+;; if i did more Clojure, I'd enable these...
 
 ;; ;(require 'clojure-mode)
 ;; ;(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
@@ -210,12 +202,6 @@ Including indent-buffer, which should not be called automatically on save."
 ;; ;(setq swank-clojure-extra-classpaths '())
 ;; ;(clojure-slime-config)
 ;; (setq auto-mode-alist (cons '("\\.clj$" . clojure-mode) auto-mode-alist))
-
-;; (add-to-list 'auto-mode-alist '("\\.\\([pP][Llm]\\|al\\)\\'" . perl-mode))
-;;  (add-to-list 'interpreter-mode-alist '("perl" . perl-mode))
-;;  (add-to-list 'interpreter-mode-alist '("perl5" . perl-mode))
-;;  (add-to-list 'interpreter-mode-alist '("miniperl" . perl-mode))
-;; (setq cperl-indent-level 4)
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -245,34 +231,5 @@ Including indent-buffer, which should not be called automatically on save."
 (fset 'flip-pipe
       (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([1 C-return 19 124 2 23 4 5 124 25 backspace 14] 0 "%d")) arg)))
 
-;;;;;;;;;;;;;;; old crap... ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (defvar *emacs-load-start* (current-time))
-;; (setq custom-file "~/.emacs-custom.el")
-;; (load custom-file 'noerror)
-;; (defun custom-autoload(&rest args))
-;; ;; set up load-path
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/")
-;; (setq load-path (cons "/home/anders/emacs/predictive/" load-path))
-;; (add-to-list 'load-path "/home/anders/emacs/elib-1.0")
-;; (add-to-list 'load-path "/home/anders/.emacs.d/plugins")
-;; (setq completion-use-dynamic t)
-;; (global-set-key [(control w)] 'kill-syntax-backward)
-;; (require 'htmlize)
-;; (define-key global-map "\C-h" 'backward-delete-char)
-;; (set-input-mode t nil 'gazonk 7)
-;; (setq standard-display-european t)
-;; (global-set-key "\C-cG" 'goto-line)
-;; (global-set-key [home] 'beginning-of-line)
-;; (global-set-key [end] 'end-of-line)
-;; (global-set-key "\C-cF" 'font-lock-mode)
-;; (global-set-key "\C-cc" 'compile)
-
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
