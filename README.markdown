@@ -2,7 +2,7 @@
 
 ### setup
 
-Requires emacs 24+
+Requires emacs 25+
 
     $ cd ~ && git clone git://github.com/thraxil/.emacs.d.git
 
@@ -11,7 +11,7 @@ places. You will probably find this more useful for stealing bits from
 than from using directly (I put it up here so I can easily keep my
 emacs config in sync across machines. Pull-requests welcome).
 
-To install emacs 24+ on Ubuntu 14.04, I did the following:
+To install emacs 25+ on Ubuntu 14.04, I did the following:
 
      $ sudo add-apt-repository ppa:ubuntu-elisp/ppa
 	 $ sudo apt-get update
