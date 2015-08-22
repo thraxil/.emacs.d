@@ -23,3 +23,4 @@ feature files
 * anal-retentive whitespace cleaning functionality
 * cursor line is always vertically centered and highlighted
 * hippie-expand configured how I like it
+* mutt specific config
