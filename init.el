@@ -24,7 +24,8 @@
 (require 'toggle-quotes)
 ;; ;(require 'clojure-mode)
 
-(add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
+(add-to-list 'ac-dictionary-directories
+						 (expand-file-name "ac-dict" user-emacs-directory))
 (ac-config-default)
 (setq ac-show-menu-immediately-on-auto-complete t)
 
@@ -136,7 +137,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq backup-enable-predicate 'ecm-backup-enable-predicate)
 (setq version-control "never")
 (setq backup-directory-alist
-      (cons '("." . "/home/anders/.backups") backup-directory-alist))
+      (cons '("~/.backups") backup-directory-alist))
 (setq kept-old-versions 0)
 (setq kept-new-versions 1)
 (setq delete-old-versions t)
@@ -179,7 +180,7 @@ Including indent-buffer, which should not be called automatically on save."
 ;; if i did more Clojure, I'd enable these...
 
 ;; ;(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
-;; ;(setq clojure-src-root "/home/anders/bin")
+;; ;(setq clojure-src-root "~/bin")
 ;; ;(setq swank-clojure-extra-classpaths '())
 ;; ;(clojure-slime-config)
 ;; (setq auto-mode-alist (cons '("\\.clj$" . clojure-mode) auto-mode-alist))
