@@ -6,14 +6,19 @@ Requires emacs 24+
 
     $ cd ~ && git clone git://github.com/thraxil/.emacs.d.git
 
-You'll probably have to `M-x package-install` a few melpa packages
-after that (whatever it complains about on initial load.) I haven't
-bothered working out how to do that automatically yet.
-
 I'm sorry, I still have `/home/anders` paths hard-coded in a few
 places. You will probably find this more useful for stealing bits from
 than from using directly (I put it up here so I can easily keep my
-emacs config in sync across machines).
+emacs config in sync across machines. Pull-requests welcome).
+
+To install emacs 24+ on Ubuntu 14.04, I did the following:
+
+     $ sudo add-apt-repository ppa:ubuntu-elisp/ppa
+	 $ sudo apt-get update
+	 $ sudo apt-get install emacs-snapshot emacs-snapshot-el
+
+After that, cloning this repo and starting emacs the first time
+installs all the necessary packages automatically.
 
 ### features
 
@@ -24,3 +29,4 @@ feature files
 * cursor line is always vertically centered and highlighted
 * hippie-expand configured how I like it
 * mutt specific config
+* projectile + helm
