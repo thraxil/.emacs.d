@@ -23,6 +23,7 @@
 
 (add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
 (ac-config-default)
+(setq ac-show-menu-immediately-on-auto-complete t)
 
 ;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -243,6 +244,18 @@ Including indent-buffer, which should not be called automatically on save."
 ;; ;(setq swank-clojure-extra-classpaths '())
 ;; ;(clojure-slime-config)
 ;; (setq auto-mode-alist (cons '("\\.clj$" . clojure-mode) auto-mode-alist))
+
+;; Projectile
+
+(require 'projectile)
+(projectile-global-mode)
+;(require 'ido)
+;(ido-mode t)
+(helm-mode t)
+(helm-autoresize-mode 1)
+(require 'helm-projectile)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
