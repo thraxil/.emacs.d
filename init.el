@@ -1,3 +1,12 @@
+(if (getenv "DISPLAY")
+    (progn (menu-bar-mode -1)
+           (scroll-bar-mode -1)
+           (tool-bar-mode -1)))
+
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-message t)
+
+
 ;;;;;;;;;;;;;;;;;;; load libraries ;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq load-path (cons "/home/anders/emacs/" load-path))
@@ -41,14 +50,6 @@
 ;
 ;(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
-
-(setq inhibit-splash-screen t)
-(setq inhibit-startup-message t)
-
-(if (getenv "DISPLAY")
-    (progn (menu-bar-mode -1)
-           (scroll-bar-mode -1)
-           (tool-bar-mode -1)))
 
 ;; (global-whitespace-mode 1)
 
