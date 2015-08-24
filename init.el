@@ -102,7 +102,12 @@ Including indent-buffer, which should not be called automatically on save."
 (winner-mode 1)
 
 ;; emacs 25's electric-indent-mode does some weird things with python
-(electric-indent-mode -1)
+(defun electric-indent-ignore-python (char)
+  "Ignore electric indentation for python-mode"
+  (if (equal major-mode 'python-mode)
+      'no-indent
+    nil))
+(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
