@@ -22,6 +22,7 @@
 (require 'hippie-exp)
 (require 'markdown-mode)
 (require 'toggle-quotes)
+(require 'django-html-mode)
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories
