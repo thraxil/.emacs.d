@@ -101,6 +101,8 @@ Including indent-buffer, which should not be called automatically on save."
 (delete-selection-mode 1)
 (winner-mode 1)
 
+;; emacs 25's electric-indent-mode does some weird things with python
+(electric-indent-mode -1)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
