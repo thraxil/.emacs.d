@@ -55,6 +55,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'projectile)
 (require-package 'helm)
 (require-package 'helm-projectile)
+(require-package 'yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -183,6 +184,9 @@ Including indent-buffer, which should not be called automatically on save."
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;; salt-stack extension
+(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
 
 ;; if i did more Clojure, I'd enable these...
 
