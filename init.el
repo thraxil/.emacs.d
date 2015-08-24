@@ -30,6 +30,10 @@
 (ac-config-default)
 (setq ac-show-menu-immediately-on-auto-complete t)
 
+(setq-default abbrev-mode t)
+(if (file-exists-p abbrev-file-name)
+        (quietly-read-abbrev-file))
+
 ;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
