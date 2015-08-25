@@ -21,7 +21,7 @@ installs all the necessary packages automatically.
 feature files
 * magit config
 * anal-retentive whitespace cleaning functionality (`C-c n`)
-* cursor line is always vertically centered and ghlighted
+* cursor line is always vertically centered and highlighted
 * hippie-expand configured how I like it (on `M-/`)
 * mutt specific config
 * projectile + helm
