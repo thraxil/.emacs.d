@@ -30,4 +30,7 @@
 (global-set-key [(control ? )] 'hippie-expand)
 (global-set-key [(control return)] 'set-mark-command)
 
+(define-key dired-mode-map "j" 'dired-next-line)
+(define-key dired-mode-map "k" 'dired-previous-line)
+
 (provide 'key-bindings)
