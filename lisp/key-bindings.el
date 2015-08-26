@@ -30,7 +30,20 @@
 (global-set-key [(control ? )] 'hippie-expand)
 (global-set-key [(control return)] 'set-mark-command)
 
-(define-key dired-mode-map "j" 'dired-next-line)
-(define-key dired-mode-map "k" 'dired-previous-line)
+(eval-after-load "dired-x"
+	'(progn
+		 (require 'dired-x)
+		 (define-key dired-mode-map "j" 'dired-next-line)
+		 (define-key dired-mode-map "k" 'dired-previous-line)
+		 (define-key dired-mode-map (kbd "z") 'dired-get-size)
+		 ;; press ' to open eshell in current directory in dired-mode
+		 (define-key dired-mode-map (kbd "'")
+			 (lambda ()
+				 (interactive)
+				 (eshell
+					(format "cd %s"
+									(expand-file-name
+									 default-directory)))))))
+
 
 (provide 'key-bindings)
