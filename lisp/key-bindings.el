@@ -45,5 +45,6 @@
 									(expand-file-name
 									 default-directory)))))))
 
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 (provide 'key-bindings)
