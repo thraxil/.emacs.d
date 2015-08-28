@@ -213,6 +213,8 @@ Including indent-buffer, which should not be called automatically on save."
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+(setq compilation-scroll-output t)
+
 ;; better dired setup
 (setq dired-listing-switches "-laGh1v --group-directories-first")
 (defun dired-get-size ()
