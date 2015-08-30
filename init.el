@@ -22,7 +22,6 @@
 (require 'hippie-exp)
 (require 'markdown-mode)
 (require 'toggle-quotes)
-(require 'django-html-mode)
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories
@@ -61,6 +60,8 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'helm)
 (require-package 'helm-projectile)
 (require-package 'yaml-mode)
+(require-package 'elixir-mode)
+(require-package 'web-mode)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -177,8 +178,6 @@ Including indent-buffer, which should not be called automatically on save."
 (setq js-indent-level 4)
 
 (setq auto-mode-alist (cons '("\\.tmpl$" . html-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.html$" . django-html-mode) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("\\.djhtml$'" . django-html-mode))
 (setq auto-mode-alist (cons '("\\.erl$" . erlang-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
@@ -189,6 +188,33 @@ Including indent-buffer, which should not be called automatically on save."
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(add-to-list 'auto-mode-alist '("\\.elixir2\\'" . elixir-mode))
+(add-to-list 'auto-mode-alist '("\\.exs\\'" . elixir-mode))
+
+(add-to-list 'auto-mode-alist '("\\.eex\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(setq web-mode-engines-alist
+      '(("elixir"    . "\\.eex\\'")
+        ("django"  . "\\.html\\'"))
+			)
+
+(defun my-web-mode-hook ()
+  (setq web-mode-enable-auto-pairing nil))
+
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(add-hook 'web-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+
+(defun sp-web-mode-is-code-context (id action context)
+  (when (and (eq action 'insert)
+             (not (or (get-text-property (point) 'part-side)
+                      (get-text-property (point) 'block-side))))
+
+    t))
+(setq web-mode-enable-block-face t)
+(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-part-face t)
+(setq web-mode-enable-current-column-highlight t)
 
 ;; salt-stack extension
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
