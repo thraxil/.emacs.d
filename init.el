@@ -63,6 +63,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'elixir-mode)
 (require-package 'web-mode)
 (require-package 'alchemist)
+(require-package 'powerline)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -95,6 +96,7 @@ Including indent-buffer, which should not be called automatically on save."
         (goto-line (read-number "Goto line: ")))
     (linum-mode -1)))
 
+(require 'mode-line)
 
 ;; some sane defaults
 (auto-compression-mode t)
@@ -137,9 +139,12 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+	 (quote
+		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(package-selected-packages
-   (quote
-    (helm-projectile helm projectile magit expand-region))))
+	 (quote
+		(helm-projectile helm projectile magit expand-region))))
 
 (setq skeleton-pair t)
 
@@ -291,10 +296,11 @@ Including indent-buffer, which should not be called automatically on save."
 
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+(put 'dired-find-alternate-file 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(put 'dired-find-alternate-file 'disabled nil)
