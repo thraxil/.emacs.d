@@ -62,6 +62,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'yaml-mode)
 (require-package 'elixir-mode)
 (require-package 'web-mode)
+(require-package 'alchemist)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
