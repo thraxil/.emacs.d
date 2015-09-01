@@ -10,4 +10,7 @@
   (tooltip-mode -1)
   (blink-cursor-mode -1))
 
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'default-black  t)
+
 (provide 'appearance)
