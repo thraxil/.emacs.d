@@ -272,6 +272,34 @@ Including indent-buffer, which should not be called automatically on save."
               ))) 
 (setq-default dired-omit-files-p t)
 
+;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq org-log-done t)
+(setq org-agenda-files (list "~/org/ccnmtl.org"
+														 "~/org/home.org"
+														 "~/org/spokehub.org"
+														 "~/org/projects.org"
+														 "~/org/tako.org"
+														 "~/org/capture.org"))
+
+(setq org-agenda-custom-commands 
+    '(("w" todo "WAITING" nil) 
+    ("n" todo "NEXT" nil)
+    ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+		)
+
+(setq org-default-notes-file (concat org-directory "/capture.org"))
+(define-key global-map "\C-cc" 'org-capture)
+
+(setq org-capture-templates
+      '(("c" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
+				 "* TODO %?\n  %i\n")
+				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
+				 "* %?\n  %i\n")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+				 "* %?\nEntered on %U\n  %i\n")))
+
+(setq org-agenda-include-diary t)
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
