@@ -272,6 +272,13 @@ Including indent-buffer, which should not be called automatically on save."
               ))) 
 (setq-default dired-omit-files-p t)
 
+;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq org-log-done t)
+(setq org-agenda-files (list "~/org/ccnmtl.org"
+														 "~/org/spokehub.org"
+														 "~/org/tako.org"
+                             "~/org/home.org"))
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
