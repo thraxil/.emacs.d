@@ -19,8 +19,8 @@ mouse-3: go to end")
         " "))
 
 (custom-set-faces
- '(which-func ((t (:foreground "#ff6600"))))
-																				; )
+ '(which-func ((t (:foreground "#ff6600")))))
+
 (defun powerline-simpler-vc-mode (s)
   (if s
       (replace-regexp-in-string "Git:" "" s)
