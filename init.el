@@ -155,12 +155,15 @@ Including indent-buffer, which should not be called automatically on save."
        (not (string-match "/Mail/" filename))
        (not (string-match "/News/" filename))))
 (setq backup-enable-predicate 'ecm-backup-enable-predicate)
-(setq version-control "never")
-(setq backup-directory-alist
-      (cons '("~/.backups") backup-directory-alist))
-(setq kept-old-versions 0)
-(setq kept-new-versions 1)
-(setq delete-old-versions t)
+
+(setq
+   backup-by-copying t      ; don't clobber symlinks
+   backup-directory-alist
+    '(("." . "~/.backups"))    ; don't litter my fs tree
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   version-control t)
 
 ;; auto fill for text-mode
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -275,6 +278,7 @@ Including indent-buffer, which should not be called automatically on save."
 ;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq org-log-done t)
+(setq org-directory "~/org")
 (setq org-agenda-files (list "~/org/ccnmtl.org"
 														 "~/org/home.org"
 														 "~/org/spokehub.org"
@@ -289,7 +293,6 @@ Including indent-buffer, which should not be called automatically on save."
 		)
 
 (setq org-default-notes-file (concat org-directory "/capture.org"))
-(define-key global-map "\C-cc" 'org-capture)
 
 (setq org-capture-templates
       '(("c" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
@@ -300,6 +303,9 @@ Including indent-buffer, which should not be called automatically on save."
 				 "* %?\nEntered on %U\n  %i\n")))
 
 (setq org-agenda-include-diary t)
+
+(require 'epa-file)
+(epa-file-enable)
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
