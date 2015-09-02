@@ -6,10 +6,13 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
+
 ;;;;;;;;;;;;;;;;;;; load libraries ;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(require 'appearance)
+(require 'key-bindings)
 (require 'auto-complete-config)
 (require 'package)
 (require 'erlang)
@@ -21,9 +24,14 @@
 (require 'toggle-quotes)
 ;; ;(require 'clojure-mode)
 
-(add-to-list 'ac-dictionary-directories "/home/anders/emacs/ac-dict")
+(add-to-list 'ac-dictionary-directories
+						 (expand-file-name "ac-dict" user-emacs-directory))
 (ac-config-default)
 (setq ac-show-menu-immediately-on-auto-complete t)
+
+(setq-default abbrev-mode t)
+(if (file-exists-p abbrev-file-name)
+        (quietly-read-abbrev-file))
 
 ;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -51,24 +59,15 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'projectile)
 (require-package 'helm)
 (require-package 'helm-projectile)
+(require-package 'yaml-mode)
+(require-package 'elixir-mode)
+(require-package 'web-mode)
+(require-package 'alchemist)
+(require-package 'powerline)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-
-;; full screen magit-status
-
-(defadvice magit-status (around magit-fullscreen activate)
-  (window-configuration-to-register :magit-fullscreen)
-  ad-do-it
-  (delete-other-windows))
-
-(defun magit-quit-session ()
-  "Restores the previous window configuration and kills the magit buffer"
-  (interactive)
-  (kill-buffer)
-  (jump-to-register :magit-fullscreen))
+(eval-after-load "magit" '(require 'setup-magit))
 
 ;; (global-whitespace-mode 1)
 
@@ -88,22 +87,6 @@ Including indent-buffer, which should not be called automatically on save."
   (cleanup-buffer-safe)
   (indent-region (point-min) (point-max)))
 
-(global-set-key (kbd "C-c n") 'cleanup-buffer)
-
-(global-set-key (kbd "C-'") 'toggle-quotes)
-
-(global-set-key (kbd "M-j")
-                (lambda ()
-                  (interactive)
-                  (join-line -1)))
-
-(global-set-key [(control s)] 'isearch-forward-regexp)
-(global-set-key [(control r)] 'isearch-backward-regexp)
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
-
-(global-set-key [remap goto-line] 'goto-line-with-feedback)
-
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input"
   (interactive)
@@ -113,10 +96,9 @@ Including indent-buffer, which should not be called automatically on save."
         (goto-line (read-number "Goto line: ")))
     (linum-mode -1)))
 
+(require 'mode-line)
 
 ;; some sane defaults
-(set-default 'indicate-empty-lines t)
-(setq echo-keystrokes 0.1)
 (auto-compression-mode t)
 
 ;; UTF-8 please
@@ -129,6 +111,13 @@ Including indent-buffer, which should not be called automatically on save."
 (delete-selection-mode 1)
 (winner-mode 1)
 
+;; emacs 25's electric-indent-mode does some weird things with python
+(defun electric-indent-ignore-python (char)
+  "Ignore electric indentation for python-mode"
+  (if (equal major-mode 'python-mode)
+      'no-indent
+    nil))
+(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
@@ -142,7 +131,6 @@ Including indent-buffer, which should not be called automatically on save."
 (setq scroll-step 1)
 (setq display-time-24hr-format t)
 (display-time)
-(global-hl-line-mode nil)
 (setq blink-matching-paren-distance nil)
 
 
@@ -151,23 +139,14 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+	 (quote
+		("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(package-selected-packages
-   (quote
-    (helm-projectile helm projectile magit expand-region))))
+	 (quote
+		(helm-projectile helm projectile magit expand-region))))
 
 (setq skeleton-pair t)
-(global-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "(") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "{") 'skeleton-pair-insert-maybe)
-
-
-(global-set-key (kbd "C-=") 'er/expand-region)
-
-
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; don't leave '~' files all over the place. instead,
 ;; put all of them into a single central directory
@@ -178,7 +157,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq backup-enable-predicate 'ecm-backup-enable-predicate)
 (setq version-control "never")
 (setq backup-directory-alist
-      (cons '("." . "/home/anders/.backups") backup-directory-alist))
+      (cons '("~/.backups") backup-directory-alist))
 (setq kept-old-versions 0)
 (setq kept-new-versions 1)
 (setq delete-old-versions t)
@@ -190,35 +169,22 @@ Including indent-buffer, which should not be called automatically on save."
 ;; keep point centered vertically
 (add-hook 'post-command-hook
           (lambda ()
-            (recenter '("don't redraw"))))
+            (unless (eq major-mode 'eshell-mode)
+									(recenter '("don't redraw")))))
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
 
-
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
 (add-to-list 'auto-mode-alist '("\.go$" . go-mode))
-(setq default-tab-width 2)
-(setenv "GOPATH" "/home/anders/code/go/")
-(setenv "PATH" "/home/anders/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/anders/code/go/go/bin")
-
-(defun my-go-mode-hook ()
-  (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet"))
-  (local-set-key (kbd "M-.") 'godef-jump))
-(add-hook 'go-mode-hook 'my-go-mode-hook)
+(eval-after-load "go-mode" '(require 'setup-go))
 
 (setq c-basic-offset 4)
 (setq js-indent-level 4)
 
 (setq auto-mode-alist (cons '("\\.tmpl$" . html-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.html$" . django-html-mode) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("\\.djhtml$'" . django-html-mode))
 (setq auto-mode-alist (cons '("\\.erl$" . erlang-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
@@ -230,10 +196,40 @@ Including indent-buffer, which should not be called automatically on save."
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(add-to-list 'auto-mode-alist '("\\.elixir2\\'" . elixir-mode))
+(add-to-list 'auto-mode-alist '("\\.exs\\'" . elixir-mode))
+
+(add-to-list 'auto-mode-alist '("\\.eex\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(setq web-mode-engines-alist
+      '(("elixir"    . "\\.eex\\'")
+        ("django"  . "\\.html\\'"))
+			)
+
+(defun my-web-mode-hook ()
+  (setq web-mode-enable-auto-pairing nil))
+
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(add-hook 'web-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+
+(defun sp-web-mode-is-code-context (id action context)
+  (when (and (eq action 'insert)
+             (not (or (get-text-property (point) 'part-side)
+                      (get-text-property (point) 'block-side))))
+
+    t))
+(setq web-mode-enable-block-face t)
+(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-part-face t)
+(setq web-mode-enable-current-column-highlight t)
+
+;; salt-stack extension
+(add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
+
 ;; if i did more Clojure, I'd enable these...
 
 ;; ;(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
-;; ;(setq clojure-src-root "/home/anders/bin")
+;; ;(setq clojure-src-root "~/bin")
 ;; ;(setq swank-clojure-extra-classpaths '())
 ;; ;(clojure-slime-config)
 ;; (setq auto-mode-alist (cons '("\\.clj$" . clojure-mode) auto-mode-alist))
@@ -250,9 +246,66 @@ Including indent-buffer, which should not be called automatically on save."
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+(setq compilation-scroll-output t)
+
+;; better dired setup
+(setq dired-listing-switches "-laGh1v --group-directories-first")
+(defun dired-get-size ()
+  (interactive)
+  (let ((files (dired-get-marked-files)))
+    (with-temp-buffer
+      (apply 'call-process "/usr/bin/du" nil t nil "-sch" files)
+      (message
+       "Size of all marked files: %s"
+       (progn
+         (re-search-backward "\\(^[ 0-9.,]+[A-Za-z]+\\).*total$")
+         (match-string 1))))))
+
+(add-hook 'dired-load-hook '(lambda () (require 'dired-x)))
+(setq dired-omit-mode t)
+(require 'dired-x)
+(setq dired-omit-files 
+      (rx (or (seq bol (? ".") "#")         ;; emacs autosave files 
+              (seq "~" eol)                 ;; backup-files 
+              (seq bol "svn" eol)           ;; svn dirs 
+              (seq ".pyc" eol)
+              ))) 
+(setq-default dired-omit-files-p t)
+
+;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq org-log-done t)
+(setq org-agenda-files (list "~/org/ccnmtl.org"
+														 "~/org/spokehub.org"
+														 "~/org/tako.org"
+                             "~/org/home.org"))
+
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key [(control d)] 'kill-syntax-forward)
+(defun eshell-here ()
+  "Opens up a new shell in the directory associated with the
+current buffer's file. The eshell is renamed to match that
+directory to make multiple eshell windows easier."
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory))
+         (height (/ (window-total-height) 3))
+         (name   (car (last (split-string parent "/" t)))))
+    (split-window-vertically (- height))
+    (other-window 1)
+    (eshell "new")
+    (rename-buffer (concat "*eshell: " name "*"))
+
+    (insert (concat "ls"))
+    (eshell-send-input)))
+
+(global-set-key (kbd "C-!") 'eshell-here)
+
+(defun eshell/x ()
+  (insert "exit")
+  (eshell-send-input)
+  (delete-window))
 
 (defun kill-syntax-forward ()
   "Kill characters with syntax at point."
@@ -260,9 +313,6 @@ Including indent-buffer, which should not be called automatically on save."
   (kill-region (point)
                (progn (skip-syntax-forward (string (char-syntax (char-after))))
                       (point))))
-
-(global-set-key [(control ? )] 'hippie-expand)
-(global-set-key [(control return)] 'set-mark-command)
 
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
@@ -279,6 +329,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+(put 'dired-find-alternate-file 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
