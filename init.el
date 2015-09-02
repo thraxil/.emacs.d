@@ -278,6 +278,7 @@ Including indent-buffer, which should not be called automatically on save."
 ;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq org-log-done t)
+
 (setq org-directory "~/org")
 (setq org-agenda-files (list "~/org/ccnmtl.org"
 														 "~/org/home.org"
@@ -364,3 +365,4 @@ directory to make multiple eshell windows easier."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'dired-find-alternate-file 'disabled nil)
