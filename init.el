@@ -308,6 +308,13 @@ Including indent-buffer, which should not be called automatically on save."
 (require 'epa-file)
 (epa-file-enable)
 
+(setq org-cycle-separator-lines 0)
+(setq org-blank-before-new-entry (quote ((heading)
+                                         (plain-list-item . auto))))
+(setq org-insert-heading-respect-content nil)
+(setq org-yank-adjusted-subtrees t)
+(require 'org-protocol)
+
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
 (defun eshell-here ()
