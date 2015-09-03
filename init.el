@@ -296,7 +296,7 @@ Including indent-buffer, which should not be called automatically on save."
       '(("t" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
 				 "* TODO %?\n  %i\n" :kill-buffer t)
 				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
-				 "* %?\n  %i\n" :kill-buffer t)
+				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
 				 "* %? :: \n  %i\n" :kill-buffer t)
         ("j" "Journal" entry (file+datetree "~/org/journal.org")
