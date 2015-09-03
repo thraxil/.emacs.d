@@ -293,12 +293,14 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-default-notes-file (concat org-directory "/capture.org"))
 
 (setq org-capture-templates
-      '(("c" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
-				 "* TODO %?\n  %i\n")
+      '(("t" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
+				 "* TODO %?\n  %i\n" :kill-buffer t)
 				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
-				 "* %?\n  %i\n")
+				 "* %?\n  %i\n" :kill-buffer t)
+				("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
+				 "* %? :: \n  %i\n" :kill-buffer t)
         ("j" "Journal" entry (file+datetree "~/org/journal.org")
-				 "* %?\nEntered on %U\n  %i\n")))
+				 "* %?\nEntered on %U\n  %i\n" :kill-buffer t)))
 
 (setq org-agenda-include-diary t)
 
