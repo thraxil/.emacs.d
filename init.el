@@ -290,6 +290,10 @@ Including indent-buffer, which should not be called automatically on save."
     ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
 		)
 
+(defun org-sync ()
+	(interactive)
+	(shell-command-to-string "~/.emacs.d/bin/org-sync.sh"))
+
 (setq org-default-notes-file (concat org-directory "/capture.org"))
 
 (setq org-capture-templates
