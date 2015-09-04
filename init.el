@@ -282,7 +282,6 @@ Including indent-buffer, which should not be called automatically on save."
 														 "~/org/home.org"
 														 "~/org/spokehub.org"
 														 "~/org/projects.org"
-														 "~/org/tako.org"
 														 "~/org/capture.org"))
 
 (setq org-agenda-custom-commands 
