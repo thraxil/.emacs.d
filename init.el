@@ -278,6 +278,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq org-directory "~/org")
 (setq org-agenda-files (list "~/org/ccnmtl.org"
+														 "~/org/meetings.org"
 														 "~/org/home.org"
 														 "~/org/spokehub.org"
 														 "~/org/projects.org"
@@ -301,10 +302,15 @@ Including indent-buffer, which should not be called automatically on save."
 				 "* TODO %?\n  %i\n" :kill-buffer t)
 				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
+				("l" "Link" entry (file+headline "~/org/links.org" "Links")
+				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
 				 "* %? :: \n  %i\n" :kill-buffer t)
         ("j" "Journal" entry (file+datetree "~/org/journal.org")
-				 "* %?\nEntered on %U\n  %i\n" :kill-buffer t)))
+				 "* %?\nEntered on %U\n  %i\n" :kill-buffer t)
+        ("m" "Meeting" entry (file+datetree "~/org/meetings.org")
+				 "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
+				))
 
 (setq org-agenda-include-diary t)
 
