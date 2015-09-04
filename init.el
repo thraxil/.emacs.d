@@ -139,9 +139,12 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+	 (quote
+		("~/org/ccnmtl.org" "~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/capture.org")))
  '(package-selected-packages
-   (quote
-    (powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
+	 (quote
+		(powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
 
 (setq skeleton-pair t)
 
@@ -298,7 +301,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
-				 "* TODO %?\n  %i\n" :kill-buffer t)
+				 "* TODO %?\n%t\n  %i\n" :kill-buffer t)
 				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("l" "Link" entry (file+headline "~/org/links.org" "Links")
@@ -379,5 +382,5 @@ directory to make multiple eshell windows easier."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(which-func ((t (:foreground "#ff6600")))))
 (put 'dired-find-alternate-file 'disabled nil)
