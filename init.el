@@ -299,6 +299,22 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq org-default-notes-file (concat org-directory "/capture.org"))
 
+(defun get-journal-dir-today ()
+	(expand-file-name (concat "~/org/journal/" (format-time-string "%Y/%m/"))))
+
+(defun get-journal-file-today ()
+  "Return filename for today's journal entry."
+	(let ((daily-dir (get-journal-dir-today)))
+		(make-directory daily-dir t)
+		(concat daily-dir (format-time-string "%Y-%m-%d.org"))))
+
+(get-journal-file-today)
+
+(defun journal-file-today ()
+  "Create and load a journal file based on today's date."
+  (interactive)
+  (find-file (get-journal-file-today)))
+
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
 				 "* TODO %?\n%t\n  %i\n" :kill-buffer t)
@@ -310,8 +326,9 @@ Including indent-buffer, which should not be called automatically on save."
 				 "* %U\n\n%?\n\n%i\n" :kill-buffer t)
 				("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
 				 "* %? :: \n  %i\n" :kill-buffer t)
-        ("j" "Journal" entry (file+datetree "~/org/journal.org")
-				 "* %?\nEntered on %U\n  %i\n" :kill-buffer t)
+				("j" "Journal" entry (file (get-journal-file-today))
+         "* Journal: %?\n%t\n  %i\n\n"
+         :empty-lines 1 :kill-buffer t)
         ("m" "Meeting" entry (file+datetree "~/org/meetings.org")
 				 "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
 				))
