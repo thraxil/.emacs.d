@@ -308,8 +308,6 @@ Including indent-buffer, which should not be called automatically on save."
 		(make-directory daily-dir t)
 		(concat daily-dir (format-time-string "%Y-%m-%d.org"))))
 
-(get-journal-file-today)
-
 (defun journal-file-today ()
   "Create and load a journal file based on today's date."
   (interactive)
