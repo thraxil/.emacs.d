@@ -342,6 +342,8 @@ Including indent-buffer, which should not be called automatically on save."
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("q" "Quote" entry (file+headline "~/org/quotes.org" "Quotes")
 				 "* %U\n\n%?\n\n%i\n" :kill-buffer t)
+				("f" "Fact" entry (file+headline "~/org/facts.org" "Facts")
+				 "* %?\n\n%U\n\n%i\n" :kill-buffer t)
 				("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
 				 "* %? :: \n  %i\n" :kill-buffer t)
 				("j" "Journal" entry (file (get-journal-file-today))
