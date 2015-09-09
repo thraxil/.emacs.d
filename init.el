@@ -347,6 +347,8 @@ Including indent-buffer, which should not be called automatically on save."
 				("j" "Journal" entry (file (get-journal-file-today))
          "* Journal: %?\n%t\n  %i\n\n"
          :empty-lines 1 :kill-buffer t)
+				("w" "Mass" table-line (file+headline "~/org/mass.org" "Mass")
+				 "|%t|%?|")
         ("m" "Meeting" entry (file+datetree "~/org/meetings.org")
 				 "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
 				))
