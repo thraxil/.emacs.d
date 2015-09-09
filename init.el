@@ -67,6 +67,12 @@ re-downloaded in order to locate PACKAGE."
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
+; tramp still has some issues with helm...
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+(setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*")
+(setq tramp-default-method "ssh")
+;(setq tramp-debug-buffer t)
+;(setq tramp-verbose 10)
 (eval-after-load "magit" '(require 'setup-magit))
 
 ;; (global-whitespace-mode 1)
@@ -280,7 +286,21 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-log-done t)
 
 (setq org-directory "~/org")
-(setq org-agenda-files (list "~/org/ccnmtl.org"
+
+(defun get-bullet-dir-today ()
+	(expand-file-name (concat "~/org/bullet/" (format-time-string "%Y/"))))
+
+
+
+(defun get-bullet-file-today ()
+  "Return filename for today's journal entry."
+	(let ((daily-dir (get-bullet-dir-today)))
+		(make-directory daily-dir t)
+		(concat daily-dir (format-time-string "%Y-%m.org"))))
+
+
+(setq org-agenda-files (list (get-bullet-file-today)
+														 "~/org/ccnmtl.org"
 														 "~/org/meetings.org"
 														 "~/org/home.org"
 														 "~/org/spokehub.org"
@@ -314,8 +334,8 @@ Including indent-buffer, which should not be called automatically on save."
   (find-file (get-journal-file-today)))
 
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/capture.org" "Tasks")
-				 "* TODO %?\n%t\n  %i\n" :kill-buffer t)
+      '(("t" "Todo" entry (file (get-bullet-file-today))
+         "* TODO %?\n%t\n  %i\n" :kill-buffer t)
 				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("l" "Link" entry (file+headline "~/org/links.org" "Links")
