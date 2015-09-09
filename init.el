@@ -355,6 +355,13 @@ Including indent-buffer, which should not be called automatically on save."
 				 "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
 				))
 
+(setq org-refile-targets '((nil :maxlevel . 2)
+																				; all top-level headlines in the
+																				; current buffer are used (first) as a
+																				; refile target
+                           (org-agenda-files :maxlevel . 1)))
+(setq org-refile-use-outline-path 'file)
+(setq org-outline-path-complete-in-steps nil)
 (setq org-agenda-include-diary t)
 
 (require 'epa-file)
