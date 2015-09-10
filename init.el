@@ -364,6 +364,9 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-outline-path-complete-in-steps nil)
 (setq org-agenda-include-diary t)
 
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+
 (require 'epa-file)
 (epa-file-enable)
 
