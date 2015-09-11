@@ -379,6 +379,27 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-yank-adjusted-subtrees t)
 (require 'org-protocol)
 
+(require 'server)
+(or (server-running-p)
+    (server-start))
+
+(defun axels-mail-mode-hook ()
+  (turn-on-auto-fill)
+  (turn-on-font-lock)
+  (flush-lines "^\\(> \n\\)*> -- \n\\(\n?> .*\\)*") ;;; Kills quoted sigs.
+  (not-modified) ;;; We haven't changed the buffer, haven't we? *g*
+  (mail-text) ;;; Jumps to the beginning of the mail text
+  (setq make-backup-files nil) ;;; No backups necessary.
+	(define-key mail-mode-map [(control c) (control c)]
+       (lambda ()
+         (interactive)
+         (save-buffer)
+         (server-edit))))
+(or (assoc "mutt-" auto-mode-alist)
+    (setq auto-mode-alist (cons '("mutt-" . mail-mode) auto-mode-alist)))
+(add-hook 'mail-mode-hook 'axels-mail-mode-hook)
+
+
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
 (defun eshell-here ()
