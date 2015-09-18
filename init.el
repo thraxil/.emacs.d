@@ -64,6 +64,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'web-mode)
 (require-package 'alchemist)
 (require-package 'powerline)
+(require-package 'edit-server)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -145,9 +146,6 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files
-	 (quote
-		("~/org/ccnmtl.org" "~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/capture.org")))
  '(package-selected-packages
 	 (quote
 		(powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
@@ -291,13 +289,11 @@ Including indent-buffer, which should not be called automatically on save."
 	(expand-file-name (concat "~/org/bullet/" (format-time-string "%Y/"))))
 
 
-
 (defun get-bullet-file-today ()
   "Return filename for today's journal entry."
 	(let ((daily-dir (get-bullet-dir-today)))
 		(make-directory daily-dir t)
 		(concat daily-dir (format-time-string "%Y-%m.org"))))
-
 
 (setq org-agenda-files (list (get-bullet-file-today)
 														 "~/org/ccnmtl.org"
@@ -305,12 +301,12 @@ Including indent-buffer, which should not be called automatically on save."
 														 "~/org/home.org"
 														 "~/org/spokehub.org"
 														 "~/org/projects.org"
-														 "~/org/capture.org"))
+														 "~/org/meetings.org"))
 
 (setq org-agenda-custom-commands 
     '(("w" todo "WAITING" nil) 
-    ("n" todo "NEXT" nil)
-    ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+			("n" todo "NEXT" nil)
+			("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
 		)
 
 (defun org-sync ()
@@ -381,7 +377,10 @@ Including indent-buffer, which should not be called automatically on save."
 
 (require 'server)
 (or (server-running-p)
-    (server-start))
+    (server-start)
+		(setq edit-server-new-frame nil)
+		(edit-server-start)
+		)
 
 (defun axels-mail-mode-hook ()
   (turn-on-auto-fill)
