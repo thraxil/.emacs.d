@@ -313,7 +313,7 @@ Including indent-buffer, which should not be called automatically on save."
 	(interactive)
 	(shell-command-to-string "~/.emacs.d/bin/org-sync.sh"))
 
-(setq org-default-notes-file (concat org-directory "/capture.org"))
+(setq org-default-notes-file (get-bullet-file-today))
 
 (defun get-journal-dir-today ()
 	(expand-file-name (concat "~/org/journal/" (format-time-string "%Y/%m/"))))
@@ -334,7 +334,7 @@ Including indent-buffer, which should not be called automatically on save."
          "* TODO %?\n%t\n  %i\n" :kill-buffer t)
 				("d" "Done" entry (file (get-bullet-file-today))
          "* DONE %?\n\t CLOSED: %U\n%t\n  %i\n" :kill-buffer t)
-				("n" "Note" entry (file+headline "~/org/capture.org" "Notes")
+				("n" "Note" entry (file (get-bullet-file-today))
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("l" "Link" entry (file+headline "~/org/links.org" "Links")
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
