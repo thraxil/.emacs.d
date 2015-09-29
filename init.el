@@ -336,6 +336,8 @@ Including indent-buffer, which should not be called automatically on save."
          "* DONE %?\n\t CLOSED: %U\n%t\n  %i\n" :kill-buffer t)
 				("n" "Note" entry (file (get-bullet-file-today))
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
+				("s" "Schedule" entry (file (get-bullet-file-today))
+				 "* %?\n  %^T%i\n%U\n" :kill-buffer t)
 				("l" "Link" entry (file+headline "~/org/links.org" "Links")
 				 "* %?\n  %i\n%U\n" :kill-buffer t)
 				("q" "Quote" entry (file+headline "~/org/quotes.org" "Quotes")

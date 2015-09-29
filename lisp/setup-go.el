@@ -1,6 +1,6 @@
 (setq default-tab-width 2)
 (setenv "GOPATH" "~/code/go/")
-(setenv "PATH" "~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:~/code/go/go/bin")
+(setenv "PATH" "~/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:~/code/go/bin")
 
 (defun my-go-mode-hook ()
   (setq gofmt-command "goimports")
