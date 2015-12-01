@@ -5,7 +5,7 @@
 
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
-
+(setq redisplay-dont-pause t)
 
 ;;;;;;;;;;;;;;;;;;; load libraries ;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -247,8 +247,8 @@ Including indent-buffer, which should not be called automatically on save."
 (projectile-global-mode)
 ;(require 'ido)
 ;(ido-mode t)
-(helm-mode t)
-(helm-autoresize-mode 1)
+;(helm-mode nil)
+;(helm-autoresize-mode 1)
 (require 'helm-projectile)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
