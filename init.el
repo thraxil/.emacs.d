@@ -293,7 +293,7 @@ Including indent-buffer, which should not be called automatically on save."
   "Return filename for today's journal entry."
 	(let ((daily-dir (get-bullet-dir-today)))
 		(make-directory daily-dir t)
-		(concat daily-dir (format-time-string "%Y-%m-%w.org"))))
+		(concat daily-dir (format-time-string "%Y-%m-%W.org"))))
 
 (setq org-agenda-files (list (get-bullet-file-today)
 														 "~/org/ccnmtl.org"
@@ -306,8 +306,14 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-agenda-custom-commands 
     '(("w" todo "WAITING" nil) 
 			("n" todo "NEXT" nil)
+			("A" "Agenda + All Captured" ((agenda) (tags-todo "+CATEGORY=\"capture\"")))
 			("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
 		)
+
+(add-hook 'org-agenda-mode-hook
+          (lambda ()
+            (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
+            (auto-save-mode)))
 
 (defun org-sync ()
 	(interactive)
