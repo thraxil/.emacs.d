@@ -293,7 +293,7 @@ Including indent-buffer, which should not be called automatically on save."
   "Return filename for today's journal entry."
 	(let ((daily-dir (get-bullet-dir-today)))
 		(make-directory daily-dir t)
-		(concat daily-dir (format-time-string "%Y-%m.org"))))
+		(concat daily-dir (format-time-string "%Y-%m-%w.org"))))
 
 (setq org-agenda-files (list (get-bullet-file-today)
 														 "~/org/ccnmtl.org"
