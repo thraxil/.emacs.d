@@ -306,7 +306,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-agenda-custom-commands 
     '(("w" todo "WAITING" nil) 
 			("n" todo "NEXT" nil)
-			("A" "Agenda + All Captured" ((agenda) (tags-todo "+CATEGORY=\"capture\"")))
+			("a" "Agenda + All Captured" ((agenda) (tags-todo "+CATEGORY=\"capture\"")))
 			("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
 		)
 
