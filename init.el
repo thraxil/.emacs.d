@@ -213,6 +213,8 @@ Including indent-buffer, which should not be called automatically on save."
         ("django"  . "\\.html\\'"))
 			)
 
+(eval-after-load "elixir-mode" '(require 'setup-elixir))
+
 (defun my-web-mode-hook ()
   (setq web-mode-enable-auto-pairing nil))
 
