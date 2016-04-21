@@ -387,6 +387,15 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-yank-adjusted-subtrees t)
 (require 'org-protocol)
 
+(setq org-confirm-babel-evaluate nil
+      org-src-fontify-natively t
+      org-src-tab-acts-natively t)
+(require 'ob-python)
+(require 'ob-sh)
+(require 'ob-elixir)
+(require 'ob-go)
+(require 'ob-js)
+
 (require 'server)
 (or (server-running-p)
     (server-start)
