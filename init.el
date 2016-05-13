@@ -65,6 +65,10 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'alchemist)
 (require-package 'powerline)
 (require-package 'edit-server)
+(require-package 'f)
+(require-package 'let-alist)
+(require-package 's)
+(require-package 'elm-mode)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
