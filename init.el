@@ -69,6 +69,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'let-alist)
 (require-package 's)
 (require-package 'elm-mode)
+(require-package 'groovy-mode)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -152,7 +153,7 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
 	 (quote
-		(powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
+		(groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
 
 (setq skeleton-pair t)
 

@@ -634,7 +634,7 @@ You can not use it in source definition like (prefix . `NAME')."
         if (ac-source-available-p source)
         do
         (setq source (ac-source-entity source))
-        (flet ((add-attribute (name value &optional append) (add-to-list 'source (cons name value) append)))
+        (cl-flet ((add-attribute (name value &optional append) (add-to-list 'source (cons name value) append)))
           ;; prefix
           (let* ((prefix (assoc 'prefix source))
                  (real (assoc-default (cdr prefix) ac-prefix-definitions)))
