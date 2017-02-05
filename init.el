@@ -18,7 +18,6 @@
 (require 'erlang)
 (require 'feature-mode)
 (require 'go-mode)
-(require 'auto-complete-config)
 (require 'hippie-exp)
 (require 'markdown-mode)
 (require 'toggle-quotes)
@@ -70,6 +69,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 's)
 (require-package 'elm-mode)
 (require-package 'groovy-mode)
+(require-package 'php-mode)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -126,7 +126,8 @@ Including indent-buffer, which should not be called automatically on save."
 ;; emacs 25's electric-indent-mode does some weird things with python
 (defun electric-indent-ignore-python (char)
   "Ignore electric indentation for python-mode"
-  (if (equal major-mode 'python-mode)
+  (if (or (equal major-mode 'python-mode)
+					(equal major-mode 'c++-mode))
       'no-indent
     nil))
 (add-hook 'electric-indent-functions 'electric-indent-ignore-python)
@@ -186,7 +187,25 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+
 (add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+
+(c-add-style "my-style" 
+	     '("k&r"
+	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
+	       (c-basic-offset . 4)            ; indent by four spaces
+				 ))
+
+(defun my-c++-mode-hook ()
+  (c-set-style "my-style")        ; use my-style defined above
+  (auto-fill-mode)
+	(c-toggle-electric-state -1)    ; i like to type RET myself...
+	(define-key global-map (kbd "RET") ; but i still want it to be smart
+		'reindent-then-newline-and-indent)
+  (c-toggle-auto-hungry-state 1))
+
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
