@@ -24,13 +24,13 @@
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories
-						 (expand-file-name "ac-dict" user-emacs-directory))
+             (expand-file-name "ac-dict" user-emacs-directory))
 (ac-config-default)
 (setq ac-show-menu-immediately-on-auto-complete t)
 
 (setq-default abbrev-mode t)
 (if (file-exists-p abbrev-file-name)
-        (quietly-read-abbrev-file))
+    (quietly-read-abbrev-file))
 
 ;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -73,12 +73,12 @@ re-downloaded in order to locate PACKAGE."
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
-; tramp still has some issues with helm...
+                                        ; tramp still has some issues with helm...
 (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
 (setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*")
 (setq tramp-default-method "ssh")
-;(setq tramp-debug-buffer t)
-;(setq tramp-verbose 10)
+                                        ;(setq tramp-debug-buffer t)
+                                        ;(setq tramp-verbose 10)
 (eval-after-load "magit" '(require 'setup-magit))
 
 ;; (global-whitespace-mode 1)
@@ -127,7 +127,7 @@ Including indent-buffer, which should not be called automatically on save."
 (defun electric-indent-ignore-python (char)
   "Ignore electric indentation for python-mode"
   (if (or (equal major-mode 'python-mode)
-					(equal major-mode 'c++-mode))
+          (equal major-mode 'c++-mode))
       'no-indent
     nil))
 (add-hook 'electric-indent-functions 'electric-indent-ignore-python)
@@ -153,8 +153,8 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-	 (quote
-		(groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
+   (quote
+    (groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
 
 (setq skeleton-pair t)
 
@@ -167,13 +167,13 @@ Including indent-buffer, which should not be called automatically on save."
 (setq backup-enable-predicate 'ecm-backup-enable-predicate)
 
 (setq
-   backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-    '(("." . "~/.backups"))    ; don't litter my fs tree
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t)
+ backup-by-copying t      ; don't clobber symlinks
+ backup-directory-alist
+ '(("." . "~/.backups"))    ; don't litter my fs tree
+ delete-old-versions t
+ kept-new-versions 6
+ kept-old-versions 2
+ version-control t)
 
 ;; auto fill for text-mode
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -183,7 +183,7 @@ Including indent-buffer, which should not be called automatically on save."
 (add-hook 'post-command-hook
           (lambda ()
             (unless (eq major-mode 'eshell-mode)
-									(recenter '("don't redraw")))))
+              (recenter '("don't redraw")))))
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -191,18 +191,18 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
 
-(c-add-style "my-style" 
-	     '("k&r"
-	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
-	       (c-basic-offset . 4)            ; indent by four spaces
-				 ))
+(c-add-style "my-style"
+             '("k&r"
+               (indent-tabs-mode . nil)        ; use spaces rather than tabs
+               (c-basic-offset . 4)            ; indent by four spaces
+               ))
 
 (defun my-c++-mode-hook ()
   (c-set-style "my-style")        ; use my-style defined above
   (auto-fill-mode)
-	(c-toggle-electric-state -1)    ; i like to type RET myself...
-	(define-key global-map (kbd "RET") ; but i still want it to be smart
-		'reindent-then-newline-and-indent)
+  (c-toggle-electric-state -1)    ; i like to type RET myself...
+  (define-key global-map (kbd "RET") ; but i still want it to be smart
+    'reindent-then-newline-and-indent)
   (c-toggle-auto-hungry-state 1))
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
@@ -222,6 +222,9 @@ Including indent-buffer, which should not be called automatically on save."
 (setq js-mode-hook
       '(lambda () (progn
                     (set-variable 'indent-tabs-mode nil))))
+(setq emacs-lisp-mode
+      '(lambda () (progn
+                    (set-variable 'indent-tabs-mode nil))))
 
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
@@ -235,7 +238,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq web-mode-engines-alist
       '(("elixir"    . "\\.eex\\'")
         ("django"  . "\\.html\\'"))
-			)
+      )
 
 (eval-after-load "elixir-mode" '(require 'setup-elixir))
 
@@ -271,10 +274,10 @@ Including indent-buffer, which should not be called automatically on save."
 
 (require 'projectile)
 (projectile-global-mode)
-;(require 'ido)
-;(ido-mode t)
-;(helm-mode nil)
-;(helm-autoresize-mode 1)
+                                        ;(require 'ido)
+                                        ;(ido-mode t)
+                                        ;(helm-mode nil)
+                                        ;(helm-autoresize-mode 1)
 (require 'helm-projectile)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
@@ -297,12 +300,12 @@ Including indent-buffer, which should not be called automatically on save."
 (add-hook 'dired-load-hook '(lambda () (require 'dired-x)))
 (setq dired-omit-mode t)
 (require 'dired-x)
-(setq dired-omit-files 
-      (rx (or (seq bol (? ".") "#")         ;; emacs autosave files 
-              (seq "~" eol)                 ;; backup-files 
-              (seq bol "svn" eol)           ;; svn dirs 
+(setq dired-omit-files
+      (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
+              (seq "~" eol)                 ;; backup-files
+              (seq bol "svn" eol)           ;; svn dirs
               (seq ".pyc" eol)
-              ))) 
+              )))
 (setq-default dired-omit-files-p t)
 
 ;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
@@ -312,29 +315,29 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-directory "~/org")
 
 (defun get-bullet-dir-today ()
-	(expand-file-name (concat "~/org/bullet/" (format-time-string "%Y/"))))
+  (expand-file-name (concat "~/org/bullet/" (format-time-string "%Y/"))))
 
 
 (defun get-bullet-file-today ()
   "Return filename for today's journal entry."
-	(let ((daily-dir (get-bullet-dir-today)))
-		(make-directory daily-dir t)
-		(concat daily-dir (format-time-string "%Y-%m-%W.org"))))
+  (let ((daily-dir (get-bullet-dir-today)))
+    (make-directory daily-dir t)
+    (concat daily-dir (format-time-string "%Y-%m-%W.org"))))
 
 (setq org-agenda-files (list (get-bullet-file-today)
-														 "~/org/ccnmtl.org"
-														 "~/org/meetings.org"
-														 "~/org/home.org"
-														 "~/org/spokehub.org"
-														 "~/org/projects.org"
-														 "~/org/meetings.org"))
+                             "~/org/ccnmtl.org"
+                             "~/org/meetings.org"
+                             "~/org/home.org"
+                             "~/org/spokehub.org"
+                             "~/org/projects.org"
+                             "~/org/meetings.org"))
 
-(setq org-agenda-custom-commands 
-    '(("w" todo "WAITING" nil) 
-			("n" todo "NEXT" nil)
-			("a" "Agenda + All Captured" ((agenda) (tags-todo "+CATEGORY=\"capture\"")))
-			("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-		)
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING" nil)
+        ("n" todo "NEXT" nil)
+        ("a" "Agenda + All Captured" ((agenda) (tags-todo "+CATEGORY=\"capture\"")))
+        ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+      )
 
 (add-hook 'org-agenda-mode-hook
           (lambda ()
@@ -342,19 +345,19 @@ Including indent-buffer, which should not be called automatically on save."
             (auto-save-mode)))
 
 (defun org-sync ()
-	(interactive)
-	(shell-command-to-string "~/.emacs.d/bin/org-sync.sh"))
+  (interactive)
+  (shell-command-to-string "~/.emacs.d/bin/org-sync.sh"))
 
 (setq org-default-notes-file (get-bullet-file-today))
 
 (defun get-journal-dir-today ()
-	(expand-file-name (concat "~/org/journal/" (format-time-string "%Y/%m/"))))
+  (expand-file-name (concat "~/org/journal/" (format-time-string "%Y/%m/"))))
 
 (defun get-journal-file-today ()
   "Return filename for today's journal entry."
-	(let ((daily-dir (get-journal-dir-today)))
-		(make-directory daily-dir t)
-		(concat daily-dir (format-time-string "%Y-%m-%d.org"))))
+  (let ((daily-dir (get-journal-dir-today)))
+    (make-directory daily-dir t)
+    (concat daily-dir (format-time-string "%Y-%m-%d.org"))))
 
 (defun journal-file-today ()
   "Create and load a journal file based on today's date."
@@ -364,35 +367,35 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-capture-templates
       '(("t" "Todo" entry (file (get-bullet-file-today))
          "* TODO %?\n%t\n  %i\n" :kill-buffer t)
-				("d" "Done" entry (file (get-bullet-file-today))
+        ("d" "Done" entry (file (get-bullet-file-today))
          "* DONE %?\n\t CLOSED: %U\n%t\n  %i\n" :kill-buffer t)
-				("n" "Note" entry (file (get-bullet-file-today))
-				 "* %?\n  %i\n%U\n" :kill-buffer t)
-				("s" "Schedule" entry (file (get-bullet-file-today))
-				 "* %?\n  %^T%i\n%U\n" :kill-buffer t)
-				("l" "Link" entry (file+headline "~/org/links.org" "Links")
-				 "* %?\n  %i\n%U\n" :kill-buffer t)
-				("q" "Quote" entry (file+headline "~/org/quotes.org" "Quotes")
-				 "* %U\n\n%?\n\n%i\n" :kill-buffer t)
-				("i" "Idea" entry (file+headline "~/org/ideas.org" "Ideas")
-				 "* %?\n%U\n\n%i\n" :kill-buffer t)
-				("f" "Fact" entry (file+headline "~/org/facts.org" "Facts")
-				 "* %?\n\n%U\n\n%i\n" :kill-buffer t)
-				("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
-				 "* %? :: \n  %i\n" :kill-buffer t)
-				("j" "Journal" entry (file (get-journal-file-today))
+        ("n" "Note" entry (file (get-bullet-file-today))
+         "* %?\n  %i\n%U\n" :kill-buffer t)
+        ("s" "Schedule" entry (file (get-bullet-file-today))
+         "* %?\n  %^T%i\n%U\n" :kill-buffer t)
+        ("l" "Link" entry (file+headline "~/org/links.org" "Links")
+         "* %?\n  %i\n%U\n" :kill-buffer t)
+        ("q" "Quote" entry (file+headline "~/org/quotes.org" "Quotes")
+         "* %U\n\n%?\n\n%i\n" :kill-buffer t)
+        ("i" "Idea" entry (file+headline "~/org/ideas.org" "Ideas")
+         "* %?\n%U\n\n%i\n" :kill-buffer t)
+        ("f" "Fact" entry (file+headline "~/org/facts.org" "Facts")
+         "* %?\n\n%U\n\n%i\n" :kill-buffer t)
+        ("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
+         "* %? :: \n  %i\n" :kill-buffer t)
+        ("j" "Journal" entry (file (get-journal-file-today))
          "* Journal: %?\n%t\n  %i\n\n"
          :empty-lines 1 :kill-buffer t)
-				("w" "Mass" table-line (file+headline "~/org/mass.org" "Mass")
-				 "|%t|%?|")
+        ("w" "Mass" table-line (file+headline "~/org/mass.org" "Mass")
+         "|%t|%?|")
         ("m" "Meeting" entry (file+datetree "~/org/meetings.org")
-				 "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
-				))
+         "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
+        ))
 
 (setq org-refile-targets '((nil :maxlevel . 2)
-																				; all top-level headlines in the
-																				; current buffer are used (first) as a
-																				; refile target
+                                        ; all top-level headlines in the
+                                        ; current buffer are used (first) as a
+                                        ; refile target
                            (org-agenda-files :maxlevel . 1)))
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
@@ -423,9 +426,9 @@ Including indent-buffer, which should not be called automatically on save."
 (require 'server)
 (or (server-running-p)
     (server-start)
-		(setq edit-server-new-frame nil)
-		(edit-server-start)
-		)
+    (setq edit-server-new-frame nil)
+    (edit-server-start)
+    )
 
 (defun axels-mail-mode-hook ()
   (turn-on-auto-fill)
@@ -434,11 +437,11 @@ Including indent-buffer, which should not be called automatically on save."
   (not-modified) ;;; We haven't changed the buffer, haven't we? *g*
   (mail-text) ;;; Jumps to the beginning of the mail text
   (setq make-backup-files nil) ;;; No backups necessary.
-	(define-key mail-mode-map [(control c) (control c)]
-       (lambda ()
-         (interactive)
-         (save-buffer)
-         (server-edit))))
+  (define-key mail-mode-map [(control c) (control c)]
+    (lambda ()
+      (interactive)
+      (save-buffer)
+      (server-edit))))
 (or (assoc "mutt-" auto-mode-alist)
     (setq auto-mode-alist (cons '("mutt-" . mail-mode) auto-mode-alist)))
 (add-hook 'mail-mode-hook 'axels-mail-mode-hook)
