@@ -124,13 +124,12 @@ Including indent-buffer, which should not be called automatically on save."
 (winner-mode 1)
 
 ;; emacs 25's electric-indent-mode does some weird things with python
-(defun electric-indent-ignore-python (char)
-  "Ignore electric indentation for python-mode"
-  (if (or (equal major-mode 'python-mode)
-          (equal major-mode 'c++-mode))
-      'no-indent
-    nil))
-(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
+;(defun electric-indent-ignore-python (char)
+;  "Ignore electric indentation for python-mode"
+;  (if (equal major-mode 'python-mode)
+;      'no-indent
+;    nil))
+;(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
@@ -201,7 +200,7 @@ Including indent-buffer, which should not be called automatically on save."
   (c-set-style "my-style")        ; use my-style defined above
   (auto-fill-mode)
   (c-toggle-electric-state -1)    ; i like to type RET myself...
-  (define-key global-map (kbd "RET") ; but i still want it to be smart
+  (define-key c++-mode-map (kbd "RET") ; but i still want it to be smart
     'reindent-then-newline-and-indent)
   (c-toggle-auto-hungry-state 1))
 
