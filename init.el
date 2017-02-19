@@ -21,6 +21,7 @@
 (require 'hippie-exp)
 (require 'markdown-mode)
 (require 'toggle-quotes)
+(require 'go-autocomplete)
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories
@@ -71,6 +72,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'groovy-mode)
 (require-package 'php-mode)
 (require-package 'go-eldoc)
+(require-package 'go-autocomplete)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -211,10 +213,11 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-to-list 'auto-mode-alist '("\.go$" . go-mode))
 (eval-after-load "go-mode" '(require 'setup-go))
-(add-hook 'before-save-hook #'gofmt-before-save)
+;(add-hook 'before-save-hook #'gofmt-before-save)
 
 ; remember to `go get -u github.com/nsf/gocode`
 ; and make sure your $PATH includes it
+; godef also wants `go get github.com/rogpeppe/godef`
 (defun go-mode-setup ()
   (go-eldoc-setup))
  
