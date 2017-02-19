@@ -127,12 +127,12 @@ Including indent-buffer, which should not be called automatically on save."
 (winner-mode 1)
 
 ;; emacs 25's electric-indent-mode does some weird things with python
-;(defun electric-indent-ignore-python (char)
-;  "Ignore electric indentation for python-mode"
-;  (if (equal major-mode 'python-mode)
-;      'no-indent
-;    nil))
-;(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
+																				;(defun electric-indent-ignore-python (char)
+																				;  "Ignore electric indentation for python-mode"
+																				;  (if (equal major-mode 'python-mode)
+																				;      'no-indent
+																				;    nil))
+																				;(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
@@ -213,14 +213,14 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-to-list 'auto-mode-alist '("\.go$" . go-mode))
 (eval-after-load "go-mode" '(require 'setup-go))
-;(add-hook 'before-save-hook #'gofmt-before-save)
+																				;(add-hook 'before-save-hook #'gofmt-before-save)
 
-; remember to `go get -u github.com/nsf/gocode`
-; and make sure your $PATH includes it
-; godef also wants `go get github.com/rogpeppe/godef`
+																				; remember to `go get -u github.com/nsf/gocode`
+																				; and make sure your $PATH includes it
+																				; godef also wants `go get github.com/rogpeppe/godef`
 (defun go-mode-setup ()
   (go-eldoc-setup))
- 
+
 (add-hook 'go-mode-hook 'go-mode-setup)
 
 (setq c-basic-offset 4)
@@ -341,6 +341,7 @@ Including indent-buffer, which should not be called automatically on save."
                              "~/org/home.org"
                              "~/org/spokehub.org"
                              "~/org/projects.org"
+                             "~/org/calendar.org"
                              "~/org/meetings.org"))
 
 (setq org-agenda-custom-commands
@@ -403,11 +404,14 @@ Including indent-buffer, which should not be called automatically on save."
          "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
         ))
 
-(setq org-refile-targets '((nil :maxlevel . 2)
-                                        ; all top-level headlines in the
-                                        ; current buffer are used (first) as a
-                                        ; refile target
-                           (org-agenda-files :maxlevel . 1)))
+(setq org-refile-targets (quote (("~/org/ccnmtl.org" :maxlevel . 1)
+                                 ("~/org/home.org" :maxlevel . 1)
+                                 ("~/org/spokehub.org" :maxlevel . 1)
+                                 ("~/org/calendar.org" :maxlevel . 1)
+                                 ("~/org/meetings.org" :maxlevel . 1)
+                                 ("~/org/projects.org" :maxlevel . 1)
+                                 )))
+
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-agenda-include-diary t)
