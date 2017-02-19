@@ -70,6 +70,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'elm-mode)
 (require-package 'groovy-mode)
 (require-package 'php-mode)
+(require-package 'go-eldoc)
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -210,6 +211,14 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-to-list 'auto-mode-alist '("\.go$" . go-mode))
 (eval-after-load "go-mode" '(require 'setup-go))
+(add-hook 'before-save-hook #'gofmt-before-save)
+
+; remember to `go get -u github.com/nsf/gocode`
+; and make sure your $PATH includes it
+(defun go-mode-setup ()
+  (go-eldoc-setup))
+ 
+(add-hook 'go-mode-hook 'go-mode-setup)
 
 (setq c-basic-offset 4)
 (setq js-indent-level 4)
