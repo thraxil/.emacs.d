@@ -155,8 +155,9 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region))))
+	 (quote
+		(groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region)))
+ '(send-mail-function (quote smtpmail-send-it)))
 
 (setq skeleton-pair t)
 
@@ -322,6 +323,12 @@ Including indent-buffer, which should not be called automatically on save."
 ;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq org-log-done t)
+(setq org-modules (quote (org-bbdb
+													org-gnus
+                          org-habit
+                          )))
+(setq org-habit-graph-column 50)
+(run-at-time "18:00" 86400 '(lambda () (setq org-habit-show-habits t)))
 
 (setq org-directory "~/org")
 
@@ -351,6 +358,9 @@ Including indent-buffer, which should not be called automatically on save."
         ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
       )
 
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 (add-hook 'org-agenda-mode-hook
           (lambda ()
             (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
@@ -461,6 +471,61 @@ Including indent-buffer, which should not be called automatically on save."
     (setq auto-mode-alist (cons '("mutt-" . mail-mode) auto-mode-alist)))
 (add-hook 'mail-mode-hook 'axels-mail-mode-hook)
 
+
+;;; gnus stuff ;;;;;;;;
+
+(setq gnus-summary-line-format "%U%R %d %(%-20,20f%) %4L | %B %s\n")
+(setq gnus-use-cache t)
+(setq gnus-fetch-old-headers t)
+(setq shr-color-visible-luminance-min 90)
+(setq shr-color-visible-distance-min 10)
+
+(unless (boundp 'message-fill-column)
+  (add-hook 'message-mode-hook
+            (lambda ()
+              (setq fill-column 72)
+              (turn-on-auto-fill))))
+
+(setq gnus-permanently-visible-groups ".*INBOX")
+;; (gnus-demon-add-handler 'gnus-group-get-new-news 1 nil)
+(setq mm-discouraged-alternatives '("text/html" "text/richtext"))
+(setq gnus-use-full-window nil)
+
+(add-hook 'gnus-summary-mode-hook (lambda ()
+      (local-set-key (kbd "<tab>") 'gnus-summary-next-unread-article)
+      (local-set-key "n"  'gnus-summary-next-article)
+      (local-set-key "p"  'gnus-summary-prev-article)
+      (local-set-key "d"  'gnus-summary-put-mark-as-expirable-next)
+      (local-set-key "u"  'gnus-summary-clear-mark-forward)
+      (local-set-key "r"  'gnus-summary-reply-with-original)
+      (local-set-key "x"  'gnus-summary-delete-article)))
+
+(add-hook 'gnus-summary-mode-hook (lambda ()
+      (unless (gnus-news-group-p gnus-newsgroup-name)
+        (set (make-local-variable  'gnus-expirable-mark) ?D)
+        (set (make-local-variable  'gnus-canceled-mark)  ?X)
+        (set (make-local-variable  'gnus-ancient-mark)   ? )
+        (set (make-local-variable  'gnus-read-mark)      ? ))))
+
+(setq nnmail-expiry-wait 0)
+
+(setq gnus-nntp-server nil
+        gnus-read-active-file nil
+        gnus-save-newsrc-file nil
+        gnus-read-newsrc-file nil
+        gnus-check-new-newsgroups nil)
+(setq gnus-large-newsgroup 'nil)
+
+(setq bbdb-file "~/org/bbdb") ;; org directory already gets sync'd. win.
+(require-package 'bbdb)
+(bbdb-initialize 'gnus 'message)
+(bbdb-insinuate-message)
+(add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+(add-hook 'gnus-startup-hook 'bbdb-insinuate-message)
+(setq bbdb-mua-update-interactive-p '(query . create))
+
+;; this one breaks reply-with-contents:
+;; (add-hook 'message-setup-hook 'bbdb-define-all-aliases)
 
 ;;;;;;;;;;;;;;;;;;; extra functions ;;;;;;;;;;;;;;;;;;;;;;
 
