@@ -13,7 +13,9 @@ To install emacs 25+ on Ubuntu 14.04, I did the following:
 	 $ sudo apt-get install emacs-snapshot emacs-snapshot-el
 
 After that, cloning this repo and starting emacs the first time
-installs all the necessary packages automatically.
+installs all the necessary packages automatically. (some of the
+packages expect various other unix tools to be available, eg
+`goimports` for Go-mode stuff; so this clearly isn't comprehensive).
 
 ### features
 
