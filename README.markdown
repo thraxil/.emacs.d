@@ -17,11 +17,14 @@ installs all the necessary packages automatically.
 
 ### features
 
-* setups for Python, Go, Erlang, Javascript, Django, Markdown, and BDD
-feature files
+* setups for Python, Go, Erlang, Javascript, Django, Markdown, C++,
+Elm, Elixir, YAML, Groovy, and BDD feature files
 * magit config
 * anal-retentive whitespace cleaning functionality (`C-c n`)
 * cursor line is always vertically centered and highlighted
 * hippie-expand configured how I like it (on `M-/`)
 * mutt specific config
 * projectile + helm
+* gnus/bbdb setup (getting as close to my mutt config as possible)
+* org-mode runs my entire life. I have my own system based on
+  GTD/bullet journals with automatic syncing across multiple computers.
