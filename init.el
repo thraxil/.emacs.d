@@ -154,6 +154,9 @@ Including indent-buffer, which should not be called automatically on save."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+	 (quote
+		("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org")))
  '(package-selected-packages
 	 (quote
 		(groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region)))
@@ -343,7 +346,6 @@ Including indent-buffer, which should not be called automatically on save."
     (concat daily-dir (format-time-string "%Y-%m-%W.org"))))
 
 (setq org-agenda-files (list (get-bullet-file-today)
-                             "~/org/ccnmtl.org"
                              "~/org/meetings.org"
                              "~/org/home.org"
                              "~/org/spokehub.org"
@@ -414,8 +416,7 @@ Including indent-buffer, which should not be called automatically on save."
          "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
         ))
 
-(setq org-refile-targets (quote (("~/org/ccnmtl.org" :maxlevel . 1)
-                                 ("~/org/home.org" :maxlevel . 1)
+(setq org-refile-targets (quote (("~/org/home.org" :maxlevel . 1)
                                  ("~/org/spokehub.org" :maxlevel . 1)
                                  ("~/org/calendar.org" :maxlevel . 1)
                                  ("~/org/meetings.org" :maxlevel . 1)
