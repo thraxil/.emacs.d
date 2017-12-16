@@ -1,3 +1,4 @@
+(setq tramp-ssh-controlmaster-options "")
 (if (getenv "DISPLAY")
     (progn (menu-bar-mode -1)
            (scroll-bar-mode -1)
@@ -135,8 +136,9 @@ Including indent-buffer, which should not be called automatically on save."
 																				;(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
-(recentf-mode 1)
-(setq recentf-max-saved-items 100) ;; just 20 is too recent
+;(recentf-mode 1)
+;(setq recentf-keep '(file-remote-p file-readable-p))
+;(setq recentf-max-saved-items 100) ;; just 20 is too recent
 
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
@@ -250,6 +252,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-to-list 'auto-mode-alist '("\\.eex\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 (setq web-mode-engines-alist
       '(("elixir"    . "\\.eex\\'")
         ("django"  . "\\.html\\'"))
@@ -323,7 +326,7 @@ Including indent-buffer, which should not be called automatically on save."
               )))
 (setq-default dired-omit-files-p t)
 
-;;;;;;;;;;;;;;;;;;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
+;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq org-log-done t)
 (setq org-modules (quote (org-bbdb
@@ -335,15 +338,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (setq org-directory "~/org")
 
-(defun get-bullet-dir-today ()
-  (expand-file-name (concat "~/org/bullet/" (format-time-string "%Y/"))))
-
-
 (defun get-bullet-file-today ()
-  "Return filename for today's journal entry."
-  (let ((daily-dir (get-bullet-dir-today)))
-    (make-directory daily-dir t)
-    (concat daily-dir (format-time-string "%Y-%m-%W.org"))))
+  (expand-file-name "~/org/capture.org"))
 
 (setq org-agenda-files (list (get-bullet-file-today)
                              "~/org/meetings.org"
@@ -412,6 +408,8 @@ Including indent-buffer, which should not be called automatically on save."
          :empty-lines 1 :kill-buffer t)
         ("w" "Mass" table-line (file+headline "~/org/mass.org" "Mass")
          "|%t|%?|")
+        ("p" "Pushups" table-line (file+headline "~/org/pushups.org" "Pushups")
+         "|%t|%?|")
         ("m" "Meeting" entry (file+datetree "~/org/meetings.org")
          "* %u %?\n%U\n** Present\n- [X] Anders\n** Notes\n** Actions\n** TODO send out notes/PMTS\n" :kill-buffer t)
         ))
@@ -476,8 +474,8 @@ Including indent-buffer, which should not be called automatically on save."
 ;;; gnus stuff ;;;;;;;;
 
 (setq gnus-summary-line-format "%U%R %d %(%-20,20f%) %4L | %B %s\n")
-(setq gnus-use-cache t)
-(setq gnus-fetch-old-headers t)
+;(setq gnus-use-cache t)
+;(setq gnus-fetch-old-headers t)
 (setq shr-color-visible-luminance-min 90)
 (setq shr-color-visible-distance-min 10)
 
