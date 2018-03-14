@@ -23,6 +23,7 @@
 (require 'markdown-mode)
 (require 'toggle-quotes)
 (require 'go-autocomplete)
+(require 'hcl-mode)
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories
@@ -187,6 +188,10 @@ Including indent-buffer, which should not be called automatically on save."
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq fill-column 72)
 
+(add-hook 'groovy-mode-hook
+					(lambda ()
+									(setq indent-tabs-mode nil)))
+
 ;; keep point centered vertically
 (add-hook 'post-command-hook
           (lambda ()
@@ -279,6 +284,9 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; salt-stack extension
 (add-to-list 'auto-mode-alist '("\\.sls\\'" . yaml-mode))
+
+;; terraform
+(add-to-list 'auto-mode-alist '("\\.tf\\'" . hcl-mode))
 
 ;; if i did more Clojure, I'd enable these...
 
