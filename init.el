@@ -16,7 +16,7 @@
 (require 'key-bindings)
 (require 'auto-complete-config)
 (require 'package)
-(require 'erlang)
+; (require 'erlang)
 (require 'feature-mode)
 (require 'go-mode)
 (require 'hippie-exp)
@@ -66,7 +66,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'web-mode)
 (require-package 'alchemist)
 (require-package 'powerline)
-(require-package 'edit-server)
+;(require-package 'edit-server)
 (require-package 'f)
 (require-package 'let-alist)
 (require-package 's)
@@ -84,7 +84,7 @@ re-downloaded in order to locate PACKAGE."
 (setq tramp-default-method "ssh")
                                         ;(setq tramp-debug-buffer t)
                                         ;(setq tramp-verbose 10)
-(eval-after-load "magit" '(require 'setup-magit))
+;(eval-after-load "magit" '(require 'setup-magit))
 
 ;; (global-whitespace-mode 1)
 
@@ -158,11 +158,11 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
-	 (quote
-		("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org")))
+   (quote
+    ("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org")))
  '(package-selected-packages
-	 (quote
-		(groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region)))
+   (quote
+    (bbdb groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region)))
  '(send-mail-function (quote smtpmail-send-it)))
 
 (setq skeleton-pair t)
@@ -202,7 +202,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 
 
-(add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+; (add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
 
 (c-add-style "my-style"
              '("k&r"
@@ -238,7 +238,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq js-indent-level 4)
 
 (setq auto-mode-alist (cons '("\\.tmpl$" . html-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.erl$" . erlang-mode) auto-mode-alist))
+; (setq auto-mode-alist (cons '("\\.erl$" . erlang-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
 (setq js-mode-hook
@@ -449,17 +449,17 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t
       org-src-tab-acts-natively t)
-(require 'ob-python)
-(require 'ob-sh)
-(require 'ob-elixir)
-(require 'ob-go)
-(require 'ob-js)
+;(require 'ob-python)
+;(require 'ob-sh)
+;(require 'ob-elixir)
+;(require 'ob-go)
+;(require 'ob-js)
 
 (require 'server)
 (or (server-running-p)
     (server-start)
-    (setq edit-server-new-frame nil)
-    (edit-server-start)
+;    (setq edit-server-new-frame nil)
+;    (edit-server-start)
     )
 
 (defun axels-mail-mode-hook ()
