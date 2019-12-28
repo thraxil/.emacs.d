@@ -195,7 +195,7 @@ Including indent-buffer, which should not be called automatically on save."
 ; keep point centered vertically
 (add-hook 'post-command-hook
           (lambda ()
-            (unless (or (eq major-mode 'eshell-mode) (eq major-mode 'magit-auto-revert-mode))
+            (unless (eq major-mode 'eshell-mode)
 	      (when (eq (current-buffer) (window-buffer (selected-window)))
 		(recenter '("don't redraw"))
 		)
