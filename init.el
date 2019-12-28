@@ -84,7 +84,7 @@ re-downloaded in order to locate PACKAGE."
 (setq tramp-default-method "ssh")
                                         ;(setq tramp-debug-buffer t)
                                         ;(setq tramp-verbose 10)
-(eval-after-load "magit" '(require 'setup-magit))
+;(eval-after-load "magit" '(require 'setup-magit))
 
 ;; (global-whitespace-mode 1)
 
@@ -193,10 +193,10 @@ Including indent-buffer, which should not be called automatically on save."
 									(setq indent-tabs-mode nil)))
 
 ;; keep point centered vertically
-(add-hook 'post-command-hook
-          (lambda ()
-            (unless (eq major-mode 'eshell-mode)
-              (recenter '("don't redraw")))))
+;(add-hook 'post-command-hook
+;          (lambda ()
+;            (unless (eq major-mode 'eshell-mode)
+;              (recenter '("don't redraw")))))
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
