@@ -192,11 +192,15 @@ Including indent-buffer, which should not be called automatically on save."
 					(lambda ()
 									(setq indent-tabs-mode nil)))
 
-;; keep point centered vertically
-;(add-hook 'post-command-hook
-;          (lambda ()
-;            (unless (eq major-mode 'eshell-mode)
-;              (recenter '("don't redraw")))))
+; keep point centered vertically
+(add-hook 'post-command-hook
+          (lambda ()
+            (unless (or (eq major-mode 'eshell-mode) (eq major-mode 'magit-auto-revert-mode))
+	      (when (eq (current-buffer) (window-buffer (selected-window)))
+		(recenter '("don't redraw"))
+		)
+;              (recenter '("don't redraw"))))
+	  )))
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
