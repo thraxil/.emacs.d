@@ -199,7 +199,6 @@ Including indent-buffer, which should not be called automatically on save."
 	      (when (eq (current-buffer) (window-buffer (selected-window)))
 		(recenter '("don't redraw"))
 		)
-;              (recenter '("don't redraw"))))
 	  )))
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
