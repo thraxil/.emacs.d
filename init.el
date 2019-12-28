@@ -84,7 +84,7 @@ re-downloaded in order to locate PACKAGE."
 (setq tramp-default-method "ssh")
                                         ;(setq tramp-debug-buffer t)
                                         ;(setq tramp-verbose 10)
-;(eval-after-load "magit" '(require 'setup-magit))
+(eval-after-load "magit" '(require 'setup-magit))
 
 ;; (global-whitespace-mode 1)
 
