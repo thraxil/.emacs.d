@@ -24,6 +24,8 @@
 (require 'toggle-quotes)
 (require 'go-autocomplete)
 (require 'hcl-mode)
+
+
 ;; ;(require 'clojure-mode)
 
 (add-to-list 'ac-dictionary-directories
@@ -76,6 +78,21 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'go-eldoc)
 (require-package 'go-autocomplete)
 
+(require-package 'use-package)
+(require-package 'quelpa-use-package)
+
+(add-to-list 'load-path "/home/anders/.emacs.d/copilot.el")
+(require 'copilot)
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+; bind copilot-accet-completion to shift+tab
+(define-key copilot-mode-map (kbd "<backtab>") 'copilot-accept-completion)
+                                        ; bind copilot-next-completion to shift+right arrow
+(define-key copilot-mode-map (kbd "<S-right>") 'copilot-next-completion)
+                                        ; bind copilot-previous-completion to shift+left arrow
+(define-key copilot-mode-map (kbd "<S-left>") 'copilot-previous-completion)
+
+
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
 
                                         ; tramp still has some issues with helm...
@@ -114,6 +131,8 @@ Including indent-buffer, which should not be called automatically on save."
     (linum-mode -1)))
 
 (require 'mode-line)
+
+(direnv-mode)
 
 ;; some sane defaults
 (auto-compression-mode t)
@@ -158,12 +177,11 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
-   (quote
-    ("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org")))
+   '("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org"))
  '(package-selected-packages
-   (quote
-    (bbdb groovy-mode powerline alchemist web-mode elixir-mode yaml-mode magit helm-projectile expand-region)))
- '(send-mail-function (quote smtpmail-send-it)))
+   '(editorconfig quelpa-use-package quelpa use-package direnv bbdb groovy-mode powerline alchemist web-mode elixir-mode yaml-mode helm-projectile expand-region))
+ '(send-mail-function 'smtpmail-send-it)
+ '(warning-suppress-log-types '((comp))))
 
 (setq skeleton-pair t)
 
@@ -310,6 +328,8 @@ Including indent-buffer, which should not be called automatically on save."
 (require 'helm-projectile)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(projectile-mode +1)
 
 (setq compilation-scroll-output t)
 
@@ -339,6 +359,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; org mode stuff ;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq org-startup-folded t)
 (setq org-log-done t)
 (setq org-modules (quote (org-bbdb
 													org-gnus
@@ -382,7 +403,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-default-notes-file (get-bullet-file-today))
 
 (defun get-journal-dir-today ()
-  (expand-file-name (concat "~/org/journal/" (format-time-string "%Y/%m/"))))
+  (expand-file-name (concat "/home/anders/org/journal/" (format-time-string "%Y/%m/"))))
 
 (defun get-journal-file-today ()
   "Return filename for today's journal entry."
@@ -526,13 +547,13 @@ Including indent-buffer, which should not be called automatically on save."
         gnus-check-new-newsgroups nil)
 (setq gnus-large-newsgroup 'nil)
 
-(setq bbdb-file "~/org/bbdb") ;; org directory already gets sync'd. win.
-(require-package 'bbdb)
-(bbdb-initialize 'gnus 'message)
-(bbdb-insinuate-message)
-(add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
-(add-hook 'gnus-startup-hook 'bbdb-insinuate-message)
-(setq bbdb-mua-update-interactive-p '(query . create))
+;; (setq bbdb-file "~/org/bbdb") ;; org directory already gets sync'd. win.
+;; (require-package 'bbdb)
+;; (bbdb-initialize 'gnus 'message)
+;; (bbdb-insinuate-message)
+;; (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+;; (add-hook 'gnus-startup-hook 'bbdb-insinuate-message)
+;; (setq bbdb-mua-update-interactive-p '(query . create))
 
 ;; this one breaks reply-with-contents:
 ;; (add-hook 'message-setup-hook 'bbdb-define-all-aliases)
@@ -595,3 +616,5 @@ directory to make multiple eshell windows easier."
  ;; If there is more than one, they won't work right.
  '(which-func ((t (:foreground "#ff6600")))))
 (put 'dired-find-alternate-file 'disabled nil)
+
+(set-face-attribute 'default nil :height 160)
