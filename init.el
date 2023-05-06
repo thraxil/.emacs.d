@@ -435,7 +435,7 @@ Including indent-buffer, which should not be called automatically on save."
          "* %?\n\n%U\n\n%i\n" :kill-buffer t)
         ("v" "Vocab" entry (file+headline "~/org/vocab.org" "Vocab")
          "* %? :: \n  %i\n" :kill-buffer t)
-        ("j" "Journal" entry (file (get-journal-file-today))
+        ("j" "Journal" entry (file get-journal-file-today)
          "* Journal: %?\n%t\n  %i\n\n"
          :empty-lines 1 :kill-buffer t)
         ("w" "Mass" table-line (file+headline "~/org/mass.org" "Mass")
