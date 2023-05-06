@@ -8,3 +8,8 @@ projectile-bookmarks.eld
 eshell
 bookmarks
 tramp
+copilot.el
+eln-cache
+quelpa
+transient
+session.*
