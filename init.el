@@ -417,13 +417,13 @@ Including indent-buffer, which should not be called automatically on save."
   (find-file (get-journal-file-today)))
 
 (setq org-capture-templates
-      '(("t" "Todo" entry (file (get-bullet-file-today))
+      '(("t" "Todo" entry (file get-bullet-file-today)
          "* TODO %?\n%t\n  %i\n" :kill-buffer t)
-        ("d" "Done" entry (file (get-bullet-file-today))
+        ("d" "Done" entry (file get-bullet-file-today)
          "* DONE %?\n\t CLOSED: %U\n%t\n  %i\n" :kill-buffer t)
-        ("n" "Note" entry (file (get-bullet-file-today))
+        ("n" "Note" entry (file get-bullet-file-today)
          "* %?\n  %i\n%U\n" :kill-buffer t)
-        ("s" "Schedule" entry (file (get-bullet-file-today))
+        ("s" "Schedule" entry (file get-bullet-file-today)
          "* %?\n  %^T%i\n%U\n" :kill-buffer t)
         ("l" "Link" entry (file+headline "~/org/links.org" "Links")
          "* %?\n  %i\n%U\n" :kill-buffer t)
