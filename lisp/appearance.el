@@ -13,4 +13,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'default-black  t)
 
+(when (eq system-type 'darwin)
+  (set-face-attribute 'default nil :height 250))
+
 (provide 'appearance)
