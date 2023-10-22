@@ -83,7 +83,13 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'editorconfig)
 (require-package 'direnv)
 
-(add-to-list 'load-path "/home/anders/.emacs.d/copilot.el")
+;; set home directory to /home if on linux, /Users if on mac
+(if (eq system-type 'gnu/linux)
+    (setq home-dir "/home/anders")
+  (setq home-dir "/Users/anders"))
+
+(add-to-list 'load-path (concat home-dir "/.emacs.d/copilot.el"))
+
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
 
@@ -405,7 +411,7 @@ Including indent-buffer, which should not be called automatically on save."
 (setq org-default-notes-file (get-bullet-file-today))
 
 (defun get-journal-dir-today ()
-  (expand-file-name (concat "/home/anders/org/journal/" (format-time-string "%Y/%m/"))))
+  (expand-file-name (concat home-dir "/org/journal/" (format-time-string "%Y/%m/"))))
 
 (defun get-journal-file-today ()
   "Return filename for today's journal entry."
