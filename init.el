@@ -77,11 +77,13 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'php-mode)
 (require-package 'go-eldoc)
 (require-package 'go-autocomplete)
+(require-package 'editorconfig)
 
 (require-package 'use-package)
 (require-package 'quelpa-use-package)
 (require-package 'editorconfig)
-(require-package 'direnv)
+
+(require 'direnv)
 
 ;; set home directory to /home if on linux, /Users if on mac
 (if (eq system-type 'gnu/linux)
@@ -625,7 +627,7 @@ directory to make multiple eshell windows easier."
  '(which-func ((t (:foreground "#ff6600")))))
 (put 'dired-find-alternate-file 'disabled nil)
 
-(set-face-attribute 'default nil :height 160)
+; (set-face-attribute 'default nil :height 160)
 
 (require 'ligature)
 (ligature-set-ligatures 't '("www"))
