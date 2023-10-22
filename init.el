@@ -80,6 +80,8 @@ re-downloaded in order to locate PACKAGE."
 
 (require-package 'use-package)
 (require-package 'quelpa-use-package)
+(require-package 'editorconfig)
+(require-package 'direnv)
 
 (add-to-list 'load-path "/home/anders/.emacs.d/copilot.el")
 (require 'copilot)
@@ -618,3 +620,17 @@ directory to make multiple eshell windows easier."
 (put 'dired-find-alternate-file 'disabled nil)
 
 (set-face-attribute 'default nil :height 160)
+
+(require 'ligature)
+(ligature-set-ligatures 't '("www"))
+(ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+(global-ligature-mode 't)
