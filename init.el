@@ -82,8 +82,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'use-package)
 (require-package 'quelpa-use-package)
 (require-package 'editorconfig)
-
-(require 'direnv)
+(require-package 'direnv)
 
 ;; set home directory to /home if on linux, /Users if on mac
 (if (eq system-type 'gnu/linux)
