@@ -78,6 +78,8 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'go-eldoc)
 (require-package 'go-autocomplete)
 (require-package 'editorconfig)
+(require-package 'nix-mode)
+(require-package 'rust-mode)
 
 (require-package 'use-package)
 (require-package 'quelpa-use-package)
@@ -188,7 +190,7 @@ Including indent-buffer, which should not be called automatically on save."
  '(org-agenda-files
    '("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org"))
  '(package-selected-packages
-   '(editorconfig quelpa-use-package quelpa use-package direnv bbdb groovy-mode powerline alchemist web-mode elixir-mode yaml-mode helm-projectile expand-region))
+   '(rust-mode nix-mode editorconfig quelpa-use-package quelpa use-package direnv bbdb groovy-mode powerline alchemist web-mode elixir-mode yaml-mode helm-projectile expand-region))
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-log-types '((comp))))
 
@@ -263,6 +265,12 @@ Including indent-buffer, which should not be called automatically on save."
   (go-eldoc-setup))
 
 (add-hook 'go-mode-hook 'go-mode-setup)
+
+(add-hook 'rust-mode-hook
+          (lambda () (setq indent-tabs-mode nil)))
+(setq rust-format-on-save t)
+(add-hook 'rust-mode-hook
+          (lambda () (prettify-symbols-mode)))
 
 (setq c-basic-offset 4)
 (setq js-indent-level 4)
