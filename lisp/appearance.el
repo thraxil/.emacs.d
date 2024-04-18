@@ -13,8 +13,10 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'default-black  t)
 
-(when (eq system-type 'darwin)
-  (set-frame-parameter nil 'fullscreen 'fullboth)
-  (set-face-attribute 'default nil :height 250))
+(if (eq system-type 'darwin)
+  ((set-frame-parameter nil 'fullscreen 'fullboth)
+   (set-face-attribute 'default nil :height 250))
+   (set-face-attribute 'default nil :height 200)
+)
 
 (provide 'appearance)
