@@ -44,7 +44,7 @@
 
 
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
 (require 'popup)
 
@@ -456,7 +456,7 @@ If there is no common part, this will be nil.")
   (when (<= 0 prefix)
     (setq string (substring-no-properties string))
     (let ((stat (ac-comphist-get db string t)))
-      (incf (aref stat prefix))
+      (cl-incf (aref stat prefix))
       (remhash string (ac-comphist-cache db)))))
 
 (defun ac-comphist-score (db string prefix)
@@ -467,16 +467,16 @@ If there is no common part, this will be nil.")
             (let ((stat (ac-comphist-get db string))
                   (score 0.0))
               (when stat
-                (loop for p from 0 below (length string)
+                (cl-loop for p from 0 below (length string)
                       ;; sigmoid function
                       with a = 5
                       with d = (/ 6.0 a)
                       for x = (- d (abs (- prefix p)))
                       for r = (/ 1.0 (1+ (exp (* (- a) x))))
                       do
-                      (incf score (* (aref stat p) r))))
+                      (cl-incf score (* (aref stat p) r))))
               ;; Weight by distance
-              (incf score (max 0.0 (- 0.3 (/ (- (length string) prefix) 100.0))))
+              (cl-incf score (max 0.0 (- 0.3 (/ (- (length string) prefix) 100.0))))
               (unless cache
                 (setq cache (make-vector (length string) nil))
                 (puthash string cache (ac-comphist-cache db)))
@@ -493,12 +493,12 @@ If there is no common part, this will be nil.")
                            (when (and cur threshold)
                              (if (>= cur (* total threshold))
                                  (setq cur nil)
-                               (incf n)
-                               (incf cur (cdr a))))
+                               (cl-incf n)
+                               (cl-incf cur (cdr a))))
                            (car a))
                          (sort (mapcar (lambda (string)
                                          (let ((score (ac-comphist-score db string prefix)))
-                                           (incf total score)
+                                           (cl-incf total score)
                                            (cons string score)))
                                        collection)
                                (lambda (a b) (< (cdr b) (cdr a))))))
@@ -597,7 +597,7 @@ You can not use it in source definition like (prefix . `NAME')."
   (push (cons name prefix) ac-prefix-definitions))
 
 (defun ac-match-substring (prefix candidates)
-  (loop with regexp = (regexp-quote prefix)
+  (cl-loop with regexp = (regexp-quote prefix)
         for candidate in candidates
         if (string-match regexp candidate)
         collect candidate))
@@ -621,7 +621,7 @@ You can not use it in source definition like (prefix . `NAME')."
                                 ((listp avail-cond)
                                  (eval avail-cond)))
                              t)
-                           (loop for feature in (assoc-default 'depends src)
+                           (cl-loop for feature in (assoc-default 'depends src)
                                  unless (require feature nil t) return nil
                                  finally return t))))
       (if (symbolp source)
@@ -630,7 +630,7 @@ You can not use it in source definition like (prefix . `NAME')."
 
 (defun ac-compile-sources (sources)
   "Compiled `SOURCES' into expanded sources style."
-  (loop for source in sources
+  (cl-loop for source in sources
         if (ac-source-available-p source)
         do
         (setq source (ac-source-entity source))
@@ -698,8 +698,8 @@ You can not use it in source definition like (prefix . `NAME')."
                     (< width string-width)
                     (setq c (char-after))
                     (not (eq c ?\t)))   ; special case for tab
-        (incf width (char-width c))
-        (incf length)
+        (cl-incf width (char-width c))
+        (cl-incf length)
         (forward-char)))
 
       ;; Show completion
@@ -812,7 +812,7 @@ You can not use it in source definition like (prefix . `NAME')."
       (popup-selected-item ac-menu)))
 
 (defun ac-prefix (requires ignore-list)
-  (loop with current = (point)
+  (cl-loop with current = (point)
         with point
         with prefix-def
         with sources
@@ -854,7 +854,7 @@ You can not use it in source definition like (prefix . `NAME')."
 (defun ac-init ()
   "Initialize current sources to start completion."
   (setq ac-candidates-cache nil)
-  (loop for source in ac-current-sources
+  (cl-loop for source in ac-current-sources
         for function = (assoc-default 'init source)
         if function do
         (save-excursion
@@ -909,7 +909,7 @@ You can not use it in source definition like (prefix . `NAME')."
 
 (defun ac-candidates ()
   "Produce candidates for current sources."
-  (loop with completion-ignore-case = (or (eq ac-ignore-case t)
+  (cl-loop with completion-ignore-case = (or (eq ac-ignore-case t)
                                           (and (eq ac-ignore-case 'smart)
                                                (let ((case-fold-search nil)) (not (string-match "[[:upper:]]" ac-prefix)))))
         with case-fold-search = completion-ignore-case
@@ -1356,7 +1356,7 @@ that have been made before in this function."
       (ac-fallback-command)))
     candidate))
 
-(defun* ac-start (&key
+(cl-defun ac-start (&key
                   requires
                   force-init)
   "Start completion."
@@ -1431,7 +1431,7 @@ that have been made before in this function."
   (ac-clear-variable-every-minutes variable 10))
 
 (defun ac-clear-variables-every-minute ()
-  (incf ac-minutes-counter)
+  (cl-incf ac-minutes-counter)
   (dolist (pair ac-clear-variables-every-minute)
     (if (eq (% ac-minutes-counter (cdr pair)) 0)
         (set (car pair) nil))))
@@ -1493,6 +1493,10 @@ that have been made before in this function."
         (ac-inline-update))
     (error (ac-error var))))
 
+(defun ac-flymake-stop-advice (orig-fun &rest args)
+  (unless ac-completing
+    (apply orig-fun args)))
+
 (defun ac-setup ()
   (if ac-trigger-key
       (ac-set-trigger-key ac-trigger-key))
@@ -1501,10 +1505,8 @@ that have been made before in this function."
   (unless ac-clear-variables-every-minute-timer
     (setq ac-clear-variables-every-minute-timer (run-with-timer 60 60 'ac-clear-variables-every-minute)))
   (if ac-stop-flymake-on-completing
-      (defadvice flymake-on-timer-event (around ac-flymake-stop-advice activate)
-        (unless ac-completing
-          ad-do-it))
-    (ad-disable-advice 'flymake-on-timer-event 'around 'ac-flymake-stop-advice)))
+      (advice-add 'flymake-on-timer-event :around #'ac-flymake-stop-advice)
+    (advice-remove 'flymake-on-timer-event #'ac-flymake-stop-advice)))
 
 (define-minor-mode auto-complete-mode
   "AutoComplete mode"
@@ -1537,14 +1539,16 @@ that have been made before in this function."
 
 ;;;; Compatibilities with other extensions
 
+(defun ac-flyspell-workaround-advice (orig-fun &rest args)
+  (unless ac-triggered
+    (apply orig-fun args)))
+
 (defun ac-flyspell-workaround ()
   "Flyspell uses `sit-for' for delaying its process. Unfortunatelly,
 it stops auto completion which is trigger with `run-with-idle-timer'.
 This workaround avoid flyspell processes when auto completion is being started."
   (interactive)
-  (defadvice flyspell-post-command-hook (around ac-flyspell-workaround activate)
-    (unless ac-triggered
-      ad-do-it)))
+  (advice-add 'flyspell-post-command-hook :around #'ac-flyspell-workaround-advice))
 
 
 
@@ -1576,7 +1580,7 @@ This workaround avoid flyspell processes when auto completion is being started."
         (setq candidate (match-string-no-properties 0))
         (unless (member candidate candidates)
           (push candidate candidates)
-          (incf i)))
+          (cl-incf i)))
       ;; Search backward
       (goto-char (+ point (length prefix)))
       (while (and (or (not (integerp limit)) (< i limit))
@@ -1584,7 +1588,7 @@ This workaround avoid flyspell processes when auto completion is being started."
         (setq candidate (match-string-no-properties 0))
         (unless (member candidate candidates)
           (push candidate candidates)
-          (incf i)))
+          (cl-incf i)))
       (nreverse candidates))))
 
 (defun ac-incremental-update-word-index ()
@@ -1621,7 +1625,7 @@ This workaround avoid flyspell processes when auto completion is being started."
         (ac-update-word-index-1)))))
 
 (defun ac-word-candidates (&optional buffer-pred)
-  (loop initially (unless ac-fuzzy-enable (ac-incremental-update-word-index))
+  (cl-loop initially (unless ac-fuzzy-enable (ac-incremental-update-word-index))
         for buffer in (buffer-list)
         if (and (or (not (integerp ac-limit)) (< (length candidates) ac-limit))
                 (if buffer-pred (funcall buffer-pred buffer) t))
@@ -1728,7 +1732,7 @@ This workaround avoid flyspell processes when auto completion is being started."
 (defun ac-symbol-candidates ()
   (or ac-symbols-cache
       (setq ac-symbols-cache
-            (loop for x being the symbols
+            (cl-loop for x being the symbols
                   if (or (fboundp x)
                          (boundp x)
                          (symbol-plist x))
@@ -1747,7 +1751,7 @@ This workaround avoid flyspell processes when auto completion is being started."
 (defun ac-function-candidates ()
   (or ac-functions-cache
       (setq ac-functions-cache
-            (loop for x being the symbols
+            (cl-loop for x being the symbols
                   if (fboundp x)
                   collect (symbol-name x)))))
 
@@ -1765,7 +1769,7 @@ This workaround avoid flyspell processes when auto completion is being started."
 (defun ac-variable-candidates ()
   (or ac-variables-cache
       (setq ac-variables-cache
-            (loop for x being the symbols
+            (cl-loop for x being the symbols
                   if (boundp x)
                   collect (symbol-name x)))))
 
@@ -1785,9 +1789,9 @@ This workaround avoid flyspell processes when auto completion is being started."
           (let ((suffix (concat (regexp-opt (find-library-suffixes) t) "\\'")))
             (setq ac-emacs-lisp-features
                   (append (mapcar 'prin1-to-string features)
-                          (loop for dir in load-path
+                          (cl-loop for dir in load-path
                                 if (file-directory-p dir)
-                                append (loop for file in (directory-files dir)
+                                append (cl-loop for file in (directory-files dir)
                                              if (string-match suffix file)
                                              collect (substring file 0 (match-beginning 0))))))))))
 
@@ -1817,7 +1821,7 @@ This workaround avoid flyspell processes when auto completion is being started."
 (defun ac-filename-candidate ()
   (unless (file-regular-p ac-prefix)
     (ignore-errors
-      (loop with dir = (file-name-directory ac-prefix)
+      (cl-loop with dir = (file-name-directory ac-prefix)
             with files = (or (assoc-default dir ac-filename-cache)
                              (let ((files (directory-files dir nil "^[^.]")))
                                (push (cons dir files) ac-filename-cache)
@@ -1875,7 +1879,7 @@ This workaround avoid flyspell processes when auto completion is being started."
   (apply 'append
          (mapcar 'ac-read-file-dictionary
                  (mapcar (lambda (name)
-                           (loop for dir in ac-dictionary-directories
+                           (cl-loop for dir in ac-dictionary-directories
                                  for file = (concat dir "/" name)
                                  if (file-exists-p file)
                                  return file))

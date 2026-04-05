@@ -1,9 +1,12 @@
 ;; full screen magit-status
 
-(defadvice magit-status (around magit-fullscreen activate)
+(defun magit-status-fullscreen-advice (orig-fun &rest args)
+  "Fullscreen magit-status advice."
   (window-configuration-to-register :magit-fullscreen)
-  ad-do-it
+  (apply orig-fun args)
   (delete-other-windows))
+
+(advice-add 'magit-status :around #'magit-status-fullscreen-advice)
 
 (defun magit-quit-session ()
  "Restores the previous window configuration and kills the magit buffer"

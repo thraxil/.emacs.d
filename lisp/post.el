@@ -101,7 +101,7 @@
 ;;; Valeriy E. Ushakov <uwe@ptc.spbu.ru> pointed out that (GNU) Emacs <20 has
 ;;; fewer (optional) arguments to (read-string) than what I was using to
 ;;; inherit the input method.  I didn't find a way off the top of my head
-;;; to redefine (read-string) without causing an infinite loop, so I have
+;;; to redefine (read-string) without causing an infinite cl-loop, so I have
 ;;; substituted a macro (string-read prompt) which does the right thing,
 ;;; so please use it instead of read-string.
 ;;;
@@ -219,7 +219,7 @@
 (require 'easymenu)
 
 (if (< (string-to-number emacs-version) 20)
-    (require 'cl))
+    (require 'cl-lib))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -242,7 +242,7 @@
   ;; has (read-string PROMPT &optional INITIAL-INPUT HISTORY DEFAULT-VALUE
   ;; INHERIT-INPUT-METHOD).
   ;; Since I haven't found a way of redefining read-string without causing an
-  ;; infinite loop, please use (string-read prompt).
+  ;; infinite cl-loop, please use (string-read prompt).
   (if (< (string-to-number (substring (emacs-version)
 				      (string-match "[0-9]+\.[0-9]"
 					 (emacs-version) 5))) 20)

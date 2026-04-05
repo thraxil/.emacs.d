@@ -16,7 +16,7 @@
 
 (require 'compile)
 (require 'go-mode)
-(require 'cl)
+(require 'cl-lib)
 
 (defgroup go-oracle nil
   "Options specific to the Go oracle."
@@ -131,7 +131,7 @@ result."
 
       ;; Hide the file/line info to save space.
       ;; Replace each with a little widget.
-      ;; compilation-mode + this loop = slooow.
+      ;; compilation-mode + this cl-loop = slooow.
       ;; TODO(adonovan): have oracle give us JSON
       ;; and we'll do the markup directly.
       (let ((buffer-read-only nil)

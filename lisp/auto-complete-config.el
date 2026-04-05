@@ -26,7 +26,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
 (require 'auto-complete)
 
@@ -41,7 +41,7 @@
 (ac-clear-variable-every-10-minutes 'ac-imenu-index)
 
 (defun ac-imenu-candidates ()
-  (loop with i = 0
+  (cl-loop with i = 0
         with stack = (progn
                        (unless (local-variable-p 'ac-imenu-index)
                          (make-local-variable 'ac-imenu-index))
@@ -68,7 +68,7 @@
               (if (string-match "^.*\\(()\\|=\\|<>\\)$" car)
                   (setq car (substring car 0 (match-beginning 1))))
               (push car result)
-              (incf i))))
+              (cl-incf i))))
         finally return (nreverse result)))
 
 (ac-define-source imenu
@@ -190,7 +190,7 @@
 
 (defun ac-eclim-candidates ()
   (with-no-warnings
-    (loop for c in (eclim/java-complete)
+    (cl-loop for c in (eclim/java-complete)
           collect (nth 1 c))))
 
 (ac-define-source eclim
@@ -373,7 +373,7 @@
     (or (ac-prefix-symbol) (point))))
 
 (defun ac-css-property-candidates ()
-  (or (loop with list = (assoc-default ac-css-property ac-css-property-alist)
+  (or (cl-loop with list = (assoc-default ac-css-property ac-css-property-alist)
             with seen = nil
             with value
             while (setq value (pop list))

@@ -57,7 +57,7 @@ re-downloaded in order to locate PACKAGE."
       (progn
         (package-refresh-contents)
         (require-package package min-version t)))))
-(require 'linum)
+;; (require 'linum)
 (require-package 'expand-region)
 (require-package 'magit)
 (require-package 'projectile)
@@ -86,10 +86,8 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'editorconfig)
 (require-package 'direnv)
 
-;; set home directory to /home if on linux, /Users if on mac
-(if (eq system-type 'gnu/linux)
-    (setq home-dir "/home/anders")
-  (setq home-dir "/Users/anders"))
+;; set home directory
+(setq home-dir (expand-file-name "~"))
 
 ;(add-to-list 'load-path (concat home-dir "/.emacs.d/copilot.el"))
 
@@ -137,9 +135,9 @@ Including indent-buffer, which should not be called automatically on save."
    (interactive)
    (unwind-protect
        (progn
-         (linum-mode 1)
+         (display-line-numbers-mode 1)
          (goto-line (read-number "Goto line: ")))
-     (linum-mode -1)))
+     (display-line-numbers-mode -1)))
 
 (require 'mode-line)
 
@@ -506,7 +504,8 @@ Including indent-buffer, which should not be called automatically on save."
   '(require 'ox-md nil t))
 
 (require 'epa-file)
-(epa-file-enable)
+(unless (member 'epa-file-handler (mapcar 'cdr file-name-handler-alist))
+  (epa-file-enable))
 
 (setq org-cycle-separator-lines 0)
 (setq org-blank-before-new-entry (quote ((heading)

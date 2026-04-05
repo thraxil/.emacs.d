@@ -76,7 +76,7 @@
 ;;     M-x toggle-debug-on-error RET
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 ;; Variables:
 
@@ -4375,7 +4375,7 @@ In the completion list, `module:tag' and `module:' shows up."
   (erlang-menu-substitute erlang-menu-base-items erlang-tags-function-alist)
   (erlang-menu-init))
 
-;; Return `t' since it is used inside `tags-loop-form'.
+;; Return `t' since it is used inside `tags-cl-loop-form'.
 ;;;###autoload
 (defun erlang-find-tag (modtagname &optional next-p regexp-p)
   "Like `find-tag'.  Capable of retrieving Erlang modules.
@@ -4454,7 +4454,7 @@ Tags can be given on the forms `tag', `module:', `module:tag'."
 ;;              Erlang modules.  Tricky because the etags system wasn't
 ;;              built for these kind of operations...
 ;;
-;;              Emacs 18: We loop over `find-tag' until we find a file
+;;              Emacs 18: We cl-loop over `find-tag' until we find a file
 ;;              whose module matches the requested module.  The
 ;;              drawback is that a lot of files could be loaded into
 ;;              Emacs.
@@ -4469,9 +4469,9 @@ Tags can be given on the forms `tag', `module:', `module:tag'."
   (funcall (symbol-function 'set) 'last-tag modtagname)
   ;; `tags.el' uses this variable to record how M-, would
   ;; know where to restart a tags command.
-  (if (boundp 'tags-loop-form)
+  (if (boundp 'tags-cl-loop-form)
       (funcall (symbol-function 'set)
-               'tags-loop-form '(erlang-find-tag nil t)))
+               'tags-cl-loop-form '(erlang-find-tag nil t)))
   (save-window-excursion
     (cond
      ((string-match ":$" modtagname)

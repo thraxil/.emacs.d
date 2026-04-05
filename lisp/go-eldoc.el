@@ -31,7 +31,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
 (require 'eldoc)
 (require 'go-mode)
@@ -70,7 +70,7 @@
 (defun go-eldoc--count-string (str from to)
   (save-excursion
     (goto-char from)
-    (loop while (search-forward str to t)
+    (cl-loop while (search-forward str to t)
           counting 1)))
 
 (defun go-eldoc--inside-funcall-p (from to)
@@ -111,7 +111,7 @@
        (not (string= "func" (thing-at-point 'word)))))
 
 (defun go-eldoc--goto-beginning-of-funcall ()
-  (loop with old-point = (point)
+  (cl-loop with old-point = (point)
         with retval = nil
         initially (go-goto-opening-parenthesis)
         while (and (not (bobp))
@@ -180,7 +180,7 @@
          (types (go-eldoc--split-argument-type arg-type)))
     (if (go-eldoc--no-argument-p arg-type)
         (concat "() " ret-type)
-      (loop with highlight-done = nil
+      (cl-loop with highlight-done = nil
             with arg-len = (length types)
             for i from 0 to arg-len
             for type in types

@@ -751,7 +751,7 @@
 (require 'easymenu)
 (require 'outline)
 (require 'thingatpt)
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 
 ;;; Constants =================================================================
@@ -2428,9 +2428,9 @@ header text is determined."
     ;; check prefix argument
     (cond
      ((and (equal arg '(4)) (> level 1)) ;; C-u
-      (decf level))
+      (cl-decf level))
      ((and (equal arg '(16)) (< level 6)) ;; C-u C-u
-      (incf level))
+      (cl-incf level))
      (arg ;; numeric prefix
       (setq level (prefix-numeric-value arg))))
     ;; setext headers must be level one or two
@@ -2620,7 +2620,7 @@ automatically in order to have the correct markup."
         (let ((fn (string-to-number (match-string 1))))
           (when (> fn markdown-footnote-counter)
             (setq markdown-footnote-counter fn))))))
-  (incf markdown-footnote-counter))
+  (cl-incf markdown-footnote-counter))
 
 (defun markdown-insert-footnote ()
   "Insert footnote with a new number and move point to footnote definition."
@@ -4570,7 +4570,7 @@ given range."
              (save-restriction
                ;; Extend the region to fontify so that it starts
                ;; and ends at safe places.
-               (multiple-value-bind (new-from new-to)
+               (cl-multiple-value-bind (new-from new-to)
                    (markdown-extend-changed-region from to)
                  ;; Unfontify existing fontification (start from scratch)
                  (markdown-unfontify-region-wiki-links new-from new-to)

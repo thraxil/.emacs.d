@@ -72,7 +72,7 @@
 
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 
 (defgroup clojure-mode nil
   "A mode for Clojure"
@@ -330,7 +330,7 @@ elements of a def* forms."
          (regexp-opt
           '("let" "letfn" "do"
             "cond" "condp"
-            "for" "loop" "recur"
+            "for" "cl-loop" "recur"
             "when" "when-not" "when-let" "when-first"
             "if" "if-let" "if-not"
             "." ".." "->" "doto"
@@ -544,7 +544,7 @@ check for contextual indenting."
   (if-not 1)
   (let 1)
   (letfn 1)
-  (loop 1)
+  (cl-loop 1)
   (struct-map 1)
   (assoc 1)
   (condp 2)

@@ -73,7 +73,7 @@
 ;;  \C-c ,g
 ;;  :   Go to step-definition under point
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 (require 'thingatpt)
 
 (defcustom feature-cucumber-command "rake cucumber CUCUMBER_OPTS=\"{options}\" FEATURE=\"{feature}\""
