@@ -8,6 +8,13 @@
 (setq inhibit-startup-message t)
 (setq redisplay-dont-pause t)
 
+;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
 ;;;;;;;;;;;;;;;;;;; load libraries ;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
@@ -15,14 +22,13 @@
 (require 'appearance)
 (require 'key-bindings)
 (require 'auto-complete-config)
-(require 'package)
 ; (require 'erlang)
 (require 'feature-mode)
-(require 'go-mode)
+;;(require 'go-mode)
 (require 'hippie-exp)
 (require 'markdown-mode)
 (require 'toggle-quotes)
-(require 'go-autocomplete)
+;;(require 'go-autocomplete)
 (require 'hcl-mode)
 
 
@@ -37,12 +43,6 @@
 (if (file-exists-p abbrev-file-name)
     (quietly-read-abbrev-file))
 
-;;;;;;;;;;;;;;;;;;; melpa ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(package-initialize)
 (unless (file-exists-p "~/.emacs.d/elpa/archives/melpa")
   (package-refresh-contents))
 
@@ -57,12 +57,12 @@ re-downloaded in order to locate PACKAGE."
       (progn
         (package-refresh-contents)
         (require-package package min-version t)))))
-
+(require 'linum)
 (require-package 'expand-region)
 (require-package 'magit)
 (require-package 'projectile)
-(require-package 'helm)
-(require-package 'helm-projectile)
+;(require-package 'helm)
+;(require-package 'helm-projectile)
 (require-package 'yaml-mode)
 (require-package 'elixir-mode)
 (require-package 'web-mode)
@@ -75,8 +75,8 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'elm-mode)
 (require-package 'groovy-mode)
 (require-package 'php-mode)
-(require-package 'go-eldoc)
-(require-package 'go-autocomplete)
+;;(require-package 'go-eldoc)
+;;(require-package 'go-autocomplete)
 (require-package 'editorconfig)
 (require-package 'nix-mode)
 (require-package 'rust-mode)
@@ -91,17 +91,17 @@ re-downloaded in order to locate PACKAGE."
     (setq home-dir "/home/anders")
   (setq home-dir "/Users/anders"))
 
-(add-to-list 'load-path (concat home-dir "/.emacs.d/copilot.el"))
+;(add-to-list 'load-path (concat home-dir "/.emacs.d/copilot.el"))
 
-(require 'copilot)
-(add-hook 'prog-mode-hook 'copilot-mode)
+;(require 'copilot)
+;(add-hook 'prog-mode-hook 'copilot-mode)
 
 ; bind copilot-accet-completion to shift+tab
-(define-key copilot-mode-map (kbd "<backtab>") 'copilot-accept-completion)
+;(define-key copilot-mode-map (kbd "<backtab>") 'copilot-accept-completion)
                                         ; bind copilot-next-completion to shift+right arrow
-(define-key copilot-mode-map (kbd "<S-right>") 'copilot-next-completion)
+;(define-key copilot-mode-map (kbd "<S-right>") 'copilot-next-completion)
                                         ; bind copilot-previous-completion to shift+left arrow
-(define-key copilot-mode-map (kbd "<S-left>") 'copilot-previous-completion)
+;(define-key copilot-mode-map (kbd "<S-left>") 'copilot-previous-completion)
 
 
 ;;;;;;;;;;;;;;;;;;; global settings ;;;;;;;;;;;;;;;;;;;;;;
@@ -133,13 +133,13 @@ Including indent-buffer, which should not be called automatically on save."
   (indent-region (point-min) (point-max)))
 
 (defun goto-line-with-feedback ()
-  "Show line numbers temporarily, while prompting for the line number input"
-  (interactive)
-  (unwind-protect
-      (progn
-        (linum-mode 1)
-        (goto-line (read-number "Goto line: ")))
-    (linum-mode -1)))
+"Show line numbers temporarily, while prompting for the line number input"
+   (interactive)
+   (unwind-protect
+       (progn
+         (linum-mode 1)
+         (goto-line (read-number "Goto line: ")))
+     (linum-mode -1)))
 
 (require 'mode-line)
 
@@ -154,6 +154,7 @@ Including indent-buffer, which should not be called automatically on save."
 (set-keyboard-coding-system 'utf-8) ; pretty
 (set-selection-coding-system 'utf-8) ; please
 (prefer-coding-system 'utf-8) ; with sugar on top
+(setq default-coding-system '(utf-8))
 
 (delete-selection-mode 1)
 (winner-mode 1)
@@ -188,9 +189,13 @@ Including indent-buffer, which should not be called automatically on save."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
-   '("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org" "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org"))
+   '("~/org/meetings.org" "~/org/home.org" "~/org/spokehub.org"
+     "~/org/projects.org" "~/org/calendar.org" "~/org/meetings.org"))
  '(package-selected-packages
-   '(rust-mode nix-mode editorconfig quelpa-use-package quelpa use-package direnv bbdb groovy-mode powerline alchemist web-mode elixir-mode yaml-mode helm-projectile expand-region))
+   '(alchemist direnv elm-mode expand-region go-autocomplete go-eldoc
+	       groovy-mode linum magit nix-mode php-mode powerline
+	       projectile quelpa-use-package rust-mode web-mode
+	       yaml-mode))
  '(send-mail-function 'smtpmail-send-it)
  '(warning-suppress-log-types '((comp))))
 
@@ -222,13 +227,36 @@ Including indent-buffer, which should not be called automatically on save."
 									(setq indent-tabs-mode nil)))
 
 ; keep point centered vertically
+;; (add-hook 'post-command-hook
+;;           (lambda ()
+;;             (unless (eq major-mode 'eshell-mode)
+;; 	      (let ((mouse-drag-commands '(mouse-set-point
+;;                                            mouse-drag-region
+;;                                            mouse-start-secondary-selection
+;;                                            isearch-abort
+;;                                            query-replace-exit)))
+;; 		(unless (memq this-command mouse-drag-commands)
+;; 		  (when (eq (current-buffer) (window-buffer (selected-window)))
+;; 		    (recenter '("don't redraw"))))))))
+
 (add-hook 'post-command-hook
           (lambda ()
+            ;; Only proceed if not in eshell-mode
             (unless (eq major-mode 'eshell-mode)
-	      (when (eq (current-buffer) (window-buffer (selected-window)))
-		(recenter '("don't redraw"))
-		)
-	  )))
+              ;; Define 'mouse-drag-commands' local to this block.
+              ;; The *entire subsequent code block* until the next closing paren
+              ;; is the body of this 'let'.
+              (let ((mouse-drag-commands '(mouse-set-point
+                                           mouse-drag-region
+                                           mouse-start-secondary-selection
+                                           isearch-abort
+                                           query-replace-exit)))
+                ;; If the current command is one of the mouse-drag commands,
+                ;; then skip recentering.
+                (unless (memq this-command mouse-drag-commands)
+                  ;; Otherwise, if the current buffer is selected in the window, recenter.
+                  (when (eq (current-buffer) (window-buffer (selected-window)))
+                    (recenter '("don't redraw"))))))))
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -254,8 +282,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
-(add-to-list 'auto-mode-alist '("\.go$" . go-mode))
-(eval-after-load "go-mode" '(require 'setup-go))
+;(add-to-list 'auto-mode-alist '("\.go$" . go-mode))
+;(eval-after-load "go-mode" '(require 'setup-go))
 																				;(add-hook 'before-save-hook #'gofmt-before-save)
 
 																				; remember to `go get -u github.com/nsf/gocode`
@@ -342,11 +370,11 @@ Including indent-buffer, which should not be called automatically on save."
                                         ;(ido-mode t)
                                         ;(helm-mode nil)
                                         ;(helm-autoresize-mode 1)
-(require 'helm-projectile)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(projectile-mode +1)
+;(require 'helm-projectile)
+;(setq projectile-completion-system 'helm)
+;(helm-projectile-on)
+;(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;(projectile-mode +1)
 
 (setq compilation-scroll-output t)
 

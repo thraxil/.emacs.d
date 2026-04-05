@@ -14,9 +14,8 @@
 (load-theme 'default-black  t)
 
 (if (eq system-type 'darwin)
-  ((set-frame-parameter nil 'fullscreen 'fullboth)
-   (set-face-attribute 'default nil :height 250))
-   (set-face-attribute 'default nil :height 200)
-)
+    (progn (set-frame-parameter nil 'fullscreen 'fullboth)
+           (set-face-attribute 'default nil :height 250))
+  (set-face-attribute 'default nil :height 200))
 
 (provide 'appearance)
