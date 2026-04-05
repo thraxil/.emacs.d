@@ -24,11 +24,11 @@
 (require 'auto-complete-config)
 ; (require 'erlang)
 (require 'feature-mode)
-;;(require 'go-mode)
+(require 'go-mode)
 (require 'hippie-exp)
 (require 'markdown-mode)
 (require 'toggle-quotes)
-;;(require 'go-autocomplete)
+(require 'go-autocomplete)
 (require 'hcl-mode)
 
 
@@ -282,9 +282,9 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
-;(add-to-list 'auto-mode-alist '("\.go$" . go-mode))
-;(eval-after-load "go-mode" '(require 'setup-go))
-																				;(add-hook 'before-save-hook #'gofmt-before-save)
+(add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
+(eval-after-load "go-mode" '(require 'setup-go))
+(add-hook 'before-save-hook #'gofmt-before-save)
 
 																				; remember to `go get -u github.com/nsf/gocode`
 																				; and make sure your $PATH includes it
