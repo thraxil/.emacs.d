@@ -202,7 +202,7 @@ Including indent-buffer, which should not be called automatically on save."
 ;; don't leave '~' files all over the place. instead,
 ;; put all of them into a single central directory
 (defun ecm-backup-enable-predicate (filename)
-  (and (not (string= "/tmp/" (substring filename 0 5)))
+  (and (not (string-prefix-p "/tmp/" filename))
        (not (string-match "/Mail/" filename))
        (not (string-match "/News/" filename))))
 (setq backup-enable-predicate 'ecm-backup-enable-predicate)

@@ -751,7 +751,7 @@
 (require 'easymenu)
 (require 'outline)
 (require 'thingatpt)
-(eval-when-compile (require 'cl-lib))
+(require 'cl-lib)
 
 
 ;;; Constants =================================================================
@@ -4550,7 +4550,7 @@ newline after."
     (re-search-forward "\n" nil t)
     (if (not (= (point) to))
         (setq new-to (point)))
-    (values new-from new-to)))
+    (cl-values new-from new-to)))
 
 (defun markdown-check-change-for-wiki-link (from to change)
   "Check region between FROM and TO for wiki links and re-fontfy as needed.
