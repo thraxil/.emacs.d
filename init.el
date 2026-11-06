@@ -237,24 +237,23 @@ Including indent-buffer, which should not be called automatically on save."
 ;; 		  (when (eq (current-buffer) (window-buffer (selected-window)))
 ;; 		    (recenter '("don't redraw"))))))))
 
-(add-hook 'post-command-hook
-          (lambda ()
-            ;; Only proceed if not in eshell-mode
-            (unless (eq major-mode 'eshell-mode)
-              ;; Define 'mouse-drag-commands' local to this block.
-              ;; The *entire subsequent code block* until the next closing paren
-              ;; is the body of this 'let'.
-              (let ((mouse-drag-commands '(mouse-set-point
-                                           mouse-drag-region
-                                           mouse-start-secondary-selection
-                                           isearch-abort
-                                           query-replace-exit)))
-                ;; If the current command is one of the mouse-drag commands,
-                ;; then skip recentering.
-                (unless (memq this-command mouse-drag-commands)
-                  ;; Otherwise, if the current buffer is selected in the window, recenter.
-                  (when (eq (current-buffer) (window-buffer (selected-window)))
-                    (recenter '("don't redraw"))))))))
+(defun ap/mouse-event-command-p ()
+  "Non-nil if the current command was triggered by a mouse event.
+Covers clicks, drags, the mouse-movement events generated while
+dragging out a selection, and wheel/touchpad scrolling."
+  (let ((type (event-basic-type last-command-event)))
+    (and (symbolp type)
+         (string-match-p "mouse\\|wheel" (symbol-name type)))))
+
+(defun ap/keep-point-centered ()
+  "Recenter the selected window around point, except for mouse commands."
+  (unless (or (eq major-mode 'eshell-mode)
+              (ap/mouse-event-command-p)
+              (memq this-command '(isearch-abort query-replace-exit)))
+    (when (eq (current-buffer) (window-buffer (selected-window)))
+      (recenter '("don't redraw")))))
+
+(add-hook 'post-command-hook #'ap/keep-point-centered)
 
 ;;;;;;;;;;;;;;;;;;; modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
